@@ -2,6 +2,10 @@
   "name": "strong-error-handler",
   "description": "Strong Loop Error Handler in Production",
   "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "accepts": "~1.3.0",
     "escape-html": "~1.0.3",
