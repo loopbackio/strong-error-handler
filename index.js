@@ -1,9 +1,5 @@
 /*!
  * strong-error-handler
- * Copyright(c) 2010 Sencha Inc.
- * Copyright(c) 2011 TJ Holowaychuk
- * Copyright(c) 2014 Jonathan Ong
- * Copyright(c) 2014-2015 Douglas Christopher Wilson
  * Copyright(c) 2015-2016 strongloop
  * MIT Licensed
  */
@@ -67,7 +63,7 @@ exports = module.exports = function errorHandler(options) {
   var opts = options || {}
 
   // get log option
-  var log = opts.log === true
+  var log = opts.log === undefined
     ? env !== 'test'
     : opts.log
 
@@ -75,10 +71,6 @@ exports = module.exports = function errorHandler(options) {
     throw new TypeError('option log must be function or boolean')
   }
 
-  // default logging using console.error
-  if (log === true) {
-    log = logerror
-  }
 
   return function errorHandler(err, req, res, next){
     // respect err.statusCode
@@ -142,7 +134,10 @@ exports = module.exports = function errorHandler(options) {
       });
     // json
     } else if (type === 'json') {
-      var error = { message: err.message, stack: err.stack };
+      if (env === 'production') var error = { message: err.message };
+      else {
+        var error = { message: err.message, stack: err.stack };
+      }
       for (var prop in err) error[prop] = err[prop];
       var json = JSON.stringify({ error: error });
       res.setHeader('Content-Type', 'application/json; charset=utf-8')
