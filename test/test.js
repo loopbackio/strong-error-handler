@@ -17,6 +17,15 @@ describe('errorHandler()', function () {
     .expect(500, done)
   })
 
+  describe('environment', function () {
+    it('should set environment to production', function (done) {
+      var env = 'production'
+      request(env)
+      .get('/')
+      .expect('production', done)
+    })
+  })
+
   describe('status code', function () {
     describe('when non-error status code', function () {
       it('should set the status code to 500', function (done) {
