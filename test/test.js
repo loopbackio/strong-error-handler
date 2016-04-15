@@ -3,12 +3,12 @@ process.env.NODE_ENV = 'test'
 
 var after = require('after')
 var assert = require('assert')
-var errorHandler = require('..')
+var strongErrorHandler = require('..')
 var http = require('http')
 var request = require('supertest')
 var util = require('util')
 
-describe('errorHandler()', function () {
+describe('strongErrorHandler()', function () {
   it('should set nosniff header', function (done) {
     var server = createServer(new Error('boom!'))
     request(server)
@@ -194,7 +194,7 @@ describe('errorHandler()', function () {
     var server
 
     before(function () {
-      var _errorHandler = errorHandler()
+      var _errorHandler = strongErrorHandler()
       server = http.createServer(function (req, res) {
         res.end('0')
         process.nextTick(function () {
@@ -249,10 +249,10 @@ describe('errorHandler()', function () {
   })
 })
 
-describe('errorHandler(options)', function () {
+describe('strongErrorHandler(options)', function () {
   describe('log', function () {
     it('should reject a string', function () {
-      assert.throws(errorHandler.bind(null, {log: 'yes, please'}), /option log must be/)
+      assert.throws(strongErrorHandler.bind(null, {log: 'yes, please'}), /option log must be/)
     })
 
     describe('when "undefined"', function () {
@@ -403,7 +403,7 @@ describe('errorHandler(options)', function () {
 })
 
 function createServer(error, options) {
-  var _errorHandler = errorHandler(options)
+  var _errorHandler = strongErrorHandler(options)
 
   return http.createServer(function (req, res) {
     _errorHandler(error, req, res, function (err) {

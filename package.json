@@ -28,12 +28,12 @@
     "rc": "^1.0.0",
     "should": "^5.0.0",
     "sinon": "^1.15.4",
-    "supertest": "1.1.0"
+    "supertest": "1.1.0",
+    "after": "latest"
   },
   "files": [
-    "public/",
+    "views/",
     "LICENSE",
-    "HISTORY.md",
     "index.js"
   ],
   "repository": {

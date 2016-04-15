@@ -55,7 +55,7 @@ var defer = typeof setImmediate === 'function'
  * @return {Function}
  * @api public
  */
-exports = module.exports = function errorHandler(options) {
+exports = module.exports = function strongErrorHandler(options) {
   // get environment
   var env = process.env.NODE_ENV || 'production'
 
