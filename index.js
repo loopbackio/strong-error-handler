@@ -58,21 +58,25 @@ var defer = typeof setImmediate === 'function'
 exports = module.exports = function strongErrorHandler(options) {
   // get environment
   var env = process.env.NODE_ENV || 'production'
+//   debug = process.env.debug
+//     ? console[ process.env.debug ]
+//     : function() { /* no-op. */ }
+// ;
 
   // get options
   var opts = options || {}
 
   // get log option
-  var log = opts.log === undefined
-    ? env !== 'test'
-    : opts.log
+  var log = opts.log === true
+    // ? env !== 'test'
+    // : opts.log
 
   if (typeof log !== 'function' && typeof log !== 'boolean') {
     throw new TypeError('option log must be function or boolean')
   }
 
 
-  return function errorHandler(err, req, res, next){
+  return function strongErrorHandler(err, req, res, next){
     // respect err.statusCode
     if (err.statusCode) {
       res.statusCode = err.statusCode
@@ -142,6 +146,13 @@ exports = module.exports = function strongErrorHandler(options) {
       var json = JSON.stringify({ error: error });
       res.setHeader('Content-Type', 'application/json; charset=utf-8')
       res.end(json);
+      jsonSerializer = function(sanitizedData, originalError) {
+        if (originalError.name === 'ValidationError') {
+          var details = sanitizedData.details || {};
+          sanitizedData.issueCount =  details.codes && Object.keys(details.codes).length;
+        }
+      return sanitizedData;
+    }
     // plain text
     } else {
       res.setHeader('Content-Type', 'text/plain; charset=utf-8')

@@ -19,8 +19,8 @@ describe('strongErrorHandler()', function () {
 
   describe('environment', function () {
     it('should set environment to production', function (done) {
-      var env = 'production'
-      request(env)
+      process.env.NODE_ENV  = 'production'
+      request(process.env.NODE_ENV)
       .get('/')
       .expect('production', done)
     })
@@ -377,6 +377,22 @@ describe('strongErrorHandler(options)', function () {
         .set('Accept', 'text/plain')
         .expect(500, error.stack.toString(), done)
       })
+
+        it('should pass options on to error handler module', function(done) {
+     //arrange
+     var app = loopback();
+     app.use(loopback.urlNotFound());
+     app.use(loopback.errorHandler({ includeStack: false, log: customLogger }));
+
+     //act
+     request(app).get('/url-does-not-exist').end();
+
+     //assert
+     function customLogger(err, str, req) {
+       assert.ok(err.message === 'Cannot GET /url-does-not-exist');
+       done();
+     }
+   })
     })
 
     describe('when a function', function () {
