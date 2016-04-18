@@ -58,23 +58,36 @@ var defer = typeof setImmediate === 'function'
 exports = module.exports = function strongErrorHandler(options) {
   // get environment
   var env = process.env.NODE_ENV || 'production'
-//   debug = process.env.debug
-//     ? console[ process.env.debug ]
-//     : function() { /* no-op. */ }
-// ;
+  // enable the development mode?
+  // In dev, all error properties (including) stack traces
+  // are sent in the response
+  var debug = process.env.debug
+    ? console[ process.env.debug ]
+    : function() {}
 
   // get options
   var opts = options || {}
 
   // get log option
   var log = opts.log === true
-    // ? env !== 'test'
-    // : opts.log
+     ? env !== 'development'
+     : function() {}
+
+  if (typeof log === 'function') {
+    process.on('uncaughtException', function(err) {
+   delete err.stack;
+});
+  }
+
+  if (log === true) {
+    log = logerror
+  }
 
   if (typeof log !== 'function' && typeof log !== 'boolean') {
     throw new TypeError('option log must be function or boolean')
   }
 
+  var safeFields = options.safeFields;
 
   return function strongErrorHandler(err, req, res, next){
     // respect err.statusCode
@@ -112,10 +125,20 @@ exports = module.exports = function strongErrorHandler(options) {
 
     // html
     if (type === 'html') {
-      fs.readFile(__dirname + '/public/style.css', 'utf8', function(e, style){
+      fs.readFile(__dirname + '/views/style.css', 'utf8', function(e, style){
         if (e) return next(e);
-        fs.readFile(__dirname + '/public/error.html', 'utf8', function(e, html){
+        fs.readFile(__dirname + '/views/error.jade', 'utf8', function(e, html){
           if (e) return next(e);
+          if (res.statusCode =401) {
+            fs.readFile(__dirname + '/views/error-unauthorized.html', 'utf8', function(e, html){
+              if (e) return next(e);
+            });
+          }
+          if (res.statusCode =404) {
+            fs.readFile(__dirname + '/views/error-not-found.jade', 'utf8', function(e, html){
+              if (e) return next(e);
+            });
+          }
           var isInspect = !err.stack && String(err) === toString.call(err)
           var errorHtml = !isInspect
             ? escapeHtmlBlock(str.split('\n', 1)[0] || 'Error')
@@ -146,6 +169,9 @@ exports = module.exports = function strongErrorHandler(options) {
       var json = JSON.stringify({ error: error });
       res.setHeader('Content-Type', 'application/json; charset=utf-8')
       res.end(json);
+// a custom JSON serializer function for producing JSON response bodies
+// @param sanitizedData: response data containing only safe properties
+// @param originalError: the original Error object
       jsonSerializer = function(sanitizedData, originalError) {
         if (originalError.name === 'ValidationError') {
           var details = sanitizedData.details || {};
