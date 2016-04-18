@@ -32,9 +32,9 @@ var defer = typeof setImmediate === 'function'
   : function(fn){ process.nextTick(fn.bind.apply(fn, arguments)) }
 
 /**
- * Error handler:
+ * Strong Error handler:
  *
- * Development error handler, providing stack traces
+ * Production error handler, providing stack traces
  * and error message responses for requests accepting text, html,
  * or json.
  *
@@ -87,7 +87,7 @@ exports = module.exports = function strongErrorHandler(options) {
     throw new TypeError('option log must be function or boolean')
   }
 
-  var safeFields = options.safeFields;
+  //var safeFields = options.safeFields;
 
   return function strongErrorHandler(err, req, res, next){
     // respect err.statusCode
@@ -129,16 +129,6 @@ exports = module.exports = function strongErrorHandler(options) {
         if (e) return next(e);
         fs.readFile(__dirname + '/views/error.jade', 'utf8', function(e, html){
           if (e) return next(e);
-          if (res.statusCode =401) {
-            fs.readFile(__dirname + '/views/error-unauthorized.html', 'utf8', function(e, html){
-              if (e) return next(e);
-            });
-          }
-          if (res.statusCode =404) {
-            fs.readFile(__dirname + '/views/error-not-found.jade', 'utf8', function(e, html){
-              if (e) return next(e);
-            });
-          }
           var isInspect = !err.stack && String(err) === toString.call(err)
           var errorHtml = !isInspect
             ? escapeHtmlBlock(str.split('\n', 1)[0] || 'Error')
@@ -159,6 +149,16 @@ exports = module.exports = function strongErrorHandler(options) {
           res.end(body)
         });
       });
+      if (res.statusCode === 401) {
+        fs.readFile(__dirname + '/views/error-unauthorized.html', 'utf8', function(e, html){
+            if (e) return next(e);
+          });
+      }
+      if (res.statusCode === 404)  {
+        fs.readFile(__dirname + '/views/error-not-found.jade', 'utf8', function(e, html){
+            if (e) return next(e);
+          });
+      }
     // json
     } else if (type === 'json') {
       if (env === 'production') var error = { message: err.message };

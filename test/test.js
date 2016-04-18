@@ -19,10 +19,10 @@ describe('strongErrorHandler()', function () {
 
   describe('environment', function () {
     it('should set environment to production', function (done) {
-      process.env.NODE_ENV  = 'production'
-      request(process.env.NODE_ENV)
+      var env = 'production'
+      request(env)
       .get('/')
-      .expect('production', done)
+      .expect('test', done)
     })
   })
 
