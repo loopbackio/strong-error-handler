@@ -172,7 +172,7 @@ exports = module.exports = function strongErrorHandler(options) {
 // a custom JSON serializer function for producing JSON response bodies
 // @param sanitizedData: response data containing only safe properties
 // @param originalError: the original Error object
-      jsonSerializer = function(sanitizedData, originalError) {
+    var  jsonSerializer = function(sanitizedData, originalError) {
         if (originalError.name === 'ValidationError') {
           var details = sanitizedData.details || {};
           sanitizedData.issueCount =  details.codes && Object.keys(details.codes).length;
