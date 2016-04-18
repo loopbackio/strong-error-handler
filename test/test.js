@@ -236,7 +236,7 @@ describe('strongErrorHandler()', function () {
       request(server)
       .get('/')
       .set('Accept', 'text/plain')
-      .expect(500, error.stack.toString(), cb)
+      .expect(500, error.stack.toString(), done)
     })
   })
 })
