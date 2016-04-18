@@ -7,6 +7,7 @@ var strongErrorHandler = require('..')
 var http = require('http')
 var request = require('supertest')
 var util = require('util')
+var loopback = require('loopback')
 
 describe('strongErrorHandler()', function () {
   it('should set nosniff header', function (done) {
