@@ -26,10 +26,12 @@ var inspect = util.inspect;
 var newLineGlobalRegExp = /\n/g;
 var toString = Object.prototype.toString;
 
+var defer = function(fn){ process.nextTick(fn.bind.apply(fn, arguments)) }
+
 /**
  * Strong Error handler:
  *
- * Production error handler, providing stack traces
+ * Production error handler, providing stack traces for development
  * and error message responses for requests accepting text, html,
  * or json.
  *
@@ -56,15 +58,13 @@ exports = module.exports = function strongErrorHandler(options) {
   // enable the development mode?
   // In dev, all error properties (including) stack traces
   // are sent in the response
-  var debug = process.env.debug ?
-    console[process.env.debug] :
-    function() {};
+  var debug = true;
 
   // get options
-  var opts = options || {};
+ options = options || {};
 
   // get log option
-  var log = opts.log === true ?
+  var log = options.log === true ?
     env !== 'development' :
     function() {};
 
@@ -82,9 +82,21 @@ exports = module.exports = function strongErrorHandler(options) {
     throw new TypeError('option log must be function or boolean');
   }
 
-  //var safeFields = options.safeFields;
+  // if (!options || options.debug !== false) {
+  //     return strongErrorHandler(err, req, res, next);
+  //   } else {
+  //     return function strongErrorHandler(err, req, res, next) {
+  //       delete err.stack;
+  //     };
+  //   }
+  var safeFields = options.safeFields;
 
   return function strongErrorHandler(err, req, res, next) {
+    // if (!options || options.debug !== false) {
+    //   return err.stack;
+    // } else {
+    //   delete err.stack;
+    // }
     // respect err.statusCode
     if (err.statusCode) {
       res.statusCode = err.statusCode;
