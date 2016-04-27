@@ -26,7 +26,7 @@ var inspect = util.inspect;
 var newLineGlobalRegExp = /\n/g;
 var toString = Object.prototype.toString;
 
-var defer = function(fn){ process.nextTick(fn.bind.apply(fn, arguments)) }
+var defer = function(fn) { process.nextTick(fn.bind.apply(fn, arguments)); };
 
 /**
  * Strong Error handler:
@@ -54,14 +54,14 @@ var defer = function(fn){ process.nextTick(fn.bind.apply(fn, arguments)) }
  */
 exports = module.exports = function strongErrorHandler(options) {
   // get environment
-  var env = process.env.NODE_ENV || 'production';
+//  var env = process.env.NODE_ENV || 'production';
   // enable the development mode?
   // In dev, all error properties (including) stack traces
   // are sent in the response
   var debug = true;
 
   // get options
- options = options || {};
+  options = options || {};
 
   // get log option
   var log = options.log === true ?
@@ -82,13 +82,14 @@ exports = module.exports = function strongErrorHandler(options) {
     throw new TypeError('option log must be function or boolean');
   }
 
-  // if (!options || options.debug !== false) {
-  //     return strongErrorHandler(err, req, res, next);
-  //   } else {
-  //     return function strongErrorHandler(err, req, res, next) {
-  //       delete err.stack;
-  //     };
-  //   }
+  if (!options || options.debug !== false) {
+  //  return strongErrorHandler(err, req, res, next);
+  } else {
+    return function strongErrorHandler(err, req, res, next) {
+      delete err.stack;
+    };
+  }
+
   var safeFields = options.safeFields;
 
   return function strongErrorHandler(err, req, res, next) {
@@ -97,6 +98,7 @@ exports = module.exports = function strongErrorHandler(options) {
     // } else {
     //   delete err.stack;
     // }
+
     // respect err.statusCode
     if (err.statusCode) {
       res.statusCode = err.statusCode;
@@ -111,7 +113,9 @@ exports = module.exports = function strongErrorHandler(options) {
     if (res.statusCode < 400) {
       res.statusCode = 500;
     }
-
+    if (res.statusCode == undefined) {
+      res.statusCode = 500;
+    }
     // log the error
     var str = stringify(err);
     if (log) {
@@ -126,12 +130,18 @@ exports = module.exports = function strongErrorHandler(options) {
     // negotiate
     var accept = accepts(req);
     var type = accept.type('html', 'json', 'text');
+    if (!accept) {
+      return 'Strong error Handler does not support the requested type. ';
+    }
 
     // Security header for content sniffing
     res.setHeader('X-Content-Type-Options', 'nosniff');
 
     // html
     if (type === 'html') {
+      if (debug === true) {
+
+      }
       fs.readFile(__dirname + '/views/style.css', 'utf8', function(e, style) {
         if (e) return next(e);
         fs.readFile(__dirname + '/views/error.jade', 'utf8', function(e, html) {
@@ -168,7 +178,7 @@ exports = module.exports = function strongErrorHandler(options) {
       }
     // json
     } else if (type === 'json') {
-      if (env === 'production') var error = { message: err.message };
+      if (debug !== true) var error = { message: err.message };
       else {
         var error = { message: err.message, stack: err.stack };
       }

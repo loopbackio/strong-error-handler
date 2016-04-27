@@ -180,6 +180,26 @@ describe('strongErrorHandler()', function() {
         .expect(500, error.stack.toString(), done);
       });
     });
+
+    describe('when "Accept: undefined"', function() {
+      it('should return a plain text response', function(done) {
+        request(server)
+        .get('/')
+        .set('Accept', 'undefined')
+        .expect('Content-Type', /text\/plain/)
+        .expect(500, done);
+      });
+    });
+
+    describe('when "Accept: XML(not supported)"', function() {
+      it('should return a plain text response', function(done) {
+        request(server)
+        .get('/')
+        .set('Accept', 'XML')
+        .expect('Content-Type', /text\/plain/)
+        .expect(500, done);
+      });
+    });
   });
 
   describe('headers sent', function() {
