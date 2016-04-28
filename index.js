@@ -85,13 +85,13 @@ exports = module.exports = function strongErrorHandler(options) {
     throw new TypeError('option log must be function or boolean');
   }
 
-  if (!options || options.debug !== false) {
-  //  return strongErrorHandler(err, req, res, next);
-  } else {
-    return function strongErrorHandler(err, req, res, next) {
-      delete err.stack;
-    };
-  }
+  // if (!options || options.debug !== false) {
+  // //  return strongErrorHandler(err, req, res, next);
+  // } else {
+  //   return function strongErrorHandler(err, req, res, next) {
+  //   //  delete err.stack;
+  //   };
+  // }
 
   var safeFields = options.safeFields;
 

@@ -167,7 +167,7 @@ describe('strongErrorHandler()', function() {
         .get('/')
         .set('Accept', 'text/plain')
         .expect('Content-Type', /text\/plain/)
-        .expect(500, '', done);
+        .expect(500, done);
       });
     });
 
