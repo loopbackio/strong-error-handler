@@ -65,7 +65,7 @@ exports = module.exports = function strongErrorHandler(options) {
 
   // get log option
   var log = options.log === true ?
-    env !== 'development' :
+    debug !== false :
     function() {};
 
   if (typeof log === 'function') {
@@ -139,8 +139,8 @@ exports = module.exports = function strongErrorHandler(options) {
 
     // html
     if (type === 'html') {
-      if (debug === true) {
-
+      if (debug === false) {
+        delete err.stack;
       }
       fs.readFile(__dirname + '/views/style.css', 'utf8', function(e, style) {
         if (e) return next(e);
