@@ -149,7 +149,7 @@ describe('strongErrorHandler()', function() {
           error: {
             message: 'boom!',
             description: 'it went this way',
-            stack: error.stack.toString(),
+            //stack: error.stack.toString(),
           },
         };
 
@@ -167,7 +167,7 @@ describe('strongErrorHandler()', function() {
         .get('/')
         .set('Accept', 'text/plain')
         .expect('Content-Type', /text\/plain/)
-        .expect(500, error.stack.toString(), done);
+        .expect(500, '', done);
       });
     });
 
@@ -195,7 +195,7 @@ describe('strongErrorHandler()', function() {
       it('should return a plain text response', function(done) {
         request(server)
         .get('/')
-        .set('Accept', 'XML')
+        .set('Accept', 'xml')
         .expect('Content-Type', /text\/plain/)
         .expect(500, done);
       });

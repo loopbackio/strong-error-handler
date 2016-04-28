@@ -31,9 +31,10 @@ var defer = function(fn) { process.nextTick(fn.bind.apply(fn, arguments)); };
 /**
  * Strong Error handler:
  *
- * Production error handler, providing stack traces for development
- * and error message responses for requests accepting text, html,
- * or json.
+ * Production error handler, providing stack traces for debugging
+ * environment and error message responses for requests accepting text, html,
+ * or json. strong-error-handler will only provide safeFields in production
+ * mode.
  *
  * Text:
  *
@@ -54,11 +55,11 @@ var defer = function(fn) { process.nextTick(fn.bind.apply(fn, arguments)); };
  */
 exports = module.exports = function strongErrorHandler(options) {
   // get environment
-//  var env = process.env.NODE_ENV || 'production';
+  var debug = true;
   // enable the development mode?
   // In dev, all error properties (including) stack traces
   // are sent in the response
-  var debug = true;
+
 
   // get options
   options = options || {};
@@ -66,13 +67,15 @@ exports = module.exports = function strongErrorHandler(options) {
   // get log option
   var log = options.log === true ?
     debug !== false :
-    function() {};
-
-  if (typeof log === 'function') {
-    process.on('uncaughtException', function(err) {
+    function strongErrorHandler(err, req, res, next) {
       delete err.stack;
-    });
-  }
+    };
+
+  // if (typeof log === 'function') {
+  //   process.on('uncaughtException', function(err) {
+  //     delete err.stack;
+  //   });
+  // }
 
   if (log === true) {
     log = logerror;
@@ -93,12 +96,6 @@ exports = module.exports = function strongErrorHandler(options) {
   var safeFields = options.safeFields;
 
   return function strongErrorHandler(err, req, res, next) {
-    // if (!options || options.debug !== false) {
-    //   return err.stack;
-    // } else {
-    //   delete err.stack;
-    // }
-
     // respect err.statusCode
     if (err.statusCode) {
       res.statusCode = err.statusCode;
