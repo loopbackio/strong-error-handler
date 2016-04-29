@@ -1,6 +1,3 @@
-
-process.env.NODE_ENV = 'test';
-
 var after = require('after');
 var assert = require('assert');
 var strongErrorHandler = require('..');

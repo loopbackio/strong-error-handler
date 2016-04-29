@@ -23,18 +23,19 @@
     "loopback": "^2.8.0"
   },
   "devDependencies": {
+    "after": "latest",
+    "bluebird": "~2.9.10",
     "browserify": "^10.0.0",
     "chai": "^2.1.1",
+    "env-test": "^1.0.0",
     "es5-shim": "^4.1.0",
-    "bluebird": "~2.9.10",
+    "eslint": "^2.5.3",
+    "eslint-config-loopback": "^1.0.0",
     "mocha": "^2.1.0",
     "rc": "^1.0.0",
     "should": "^5.0.0",
     "sinon": "^1.15.4",
-    "supertest": "1.1.0",
-    "after": "latest",
-    "eslint-config-loopback": "^1.0.0",
-    "eslint": "^2.5.3"
+    "supertest": "1.1.0"
   },
   "files": [
     "views/",
