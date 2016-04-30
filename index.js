@@ -55,21 +55,16 @@ var defer = function(fn) { process.nextTick(fn.bind.apply(fn, arguments)); };
  */
 exports = module.exports = function strongErrorHandler(options) {
   // get environment
-  var debug = true;
+  var env = 'production';
   // enable the development mode?
   // In dev, all error properties (including) stack traces
   // are sent in the response
-
-
+  var debug = false;
   // get options
   options = options || {};
 
   // get log option
-  var log = options.log === true ?
-    debug !== false :
-    function strongErrorHandler(err, req, res, next) {
-      delete err.stack;
-    };
+  var log = options.log === true;
 
   // if (typeof log === 'function') {
   //   process.on('uncaughtException', function(err) {
@@ -84,14 +79,6 @@ exports = module.exports = function strongErrorHandler(options) {
   if (typeof log !== 'function' && typeof log !== 'boolean') {
     throw new TypeError('option log must be function or boolean');
   }
-
-  // if (!options || options.debug !== false) {
-  // //  return strongErrorHandler(err, req, res, next);
-  // } else {
-  //   return function strongErrorHandler(err, req, res, next) {
-  //   //  delete err.stack;
-  //   };
-  // }
 
   var safeFields = options.safeFields;
 

@@ -142,16 +142,18 @@ describe('strongErrorHandler()', function() {
 
     describe('when "Accept: application/json"', function() {
       it('should return a json response', function(done) {
+        var debug = false;
         var body = {
           error: {
             message: 'boom!',
             description: 'it went this way',
-            //stack: error.stack.toString(),
+          //  stack: error.stack.toString(),
           },
         };
 
         request(server)
         .get('/')
+        .set('debug', false)
         .set('Accept', 'application/json')
         .expect('Content-Type', /application\/json/)
         .expect(500, body, done);
