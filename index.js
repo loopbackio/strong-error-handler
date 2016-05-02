@@ -6,24 +6,14 @@
 
 'use strict';
 
-/**
- * Module dependencies.
- * @private
- */
-
 var accepts = require('accepts');
 var escapeHtml = require('escape-html');
 var fs = require('fs');
 var util = require('util');
 
-/**
- * Module variables.
- * @private
- */
-
-var doubleSpaceGlobalRegExp = /  /g;
+var DOUBLE_SPACE_REGEXP = /  /g;
 var inspect = util.inspect;
-var newLineGlobalRegExp = /\n/g;
+var NEW_LINE_GLOBAL_REGEXP = /\r?\n/;
 var toString = Object.prototype.toString;
 
 var defer = function(fn) { process.nextTick(fn.bind.apply(fn, arguments)); };
@@ -54,14 +44,13 @@ var defer = function(fn) { process.nextTick(fn.bind.apply(fn, arguments)); };
  * @api public
  */
 exports = module.exports = function strongErrorHandler(options) {
-  // get environment
-  var env = 'production';
-
+  // get environment (env) is not used. For enviornement variables,
+  // options.debug should be configured
   options = options || {};
-  // enable the development mode?
+  // enable the development mode by default
   // In dev, all error properties (including) stack traces
   // are sent in the response
-  var debug = options.debug === true;
+  var debug = options.debug;
   // get options
   // get log option
   var log = options.log === true;
@@ -76,13 +65,16 @@ exports = module.exports = function strongErrorHandler(options) {
     log = logerror;
   }
 
-  if (typeof log !== 'function' && typeof log !== 'boolean') {
-    throw new TypeError('option log must be function or boolean');
+  if (typeof log !== 'boolean') {
+    throw new TypeError('option log must be boolean');
   }
 
   var safeFields = options.safeFields;
 
   return function strongErrorHandler(err, req, res, next) {
+    if (debug) {
+      delete err.stack;
+    }
     // respect err.statusCode
     if (err.statusCode) {
       res.statusCode = err.statusCode;
@@ -103,7 +95,7 @@ exports = module.exports = function strongErrorHandler(options) {
     // log the error
     var str = stringify(err);
     if (log) {
-      defer(log, err, str, req, res);
+      console.error('Unhandled error for request %s %s: %s', req.method, req.path, err.stack);
     }
 
     // cannot actually respond
@@ -123,9 +115,6 @@ exports = module.exports = function strongErrorHandler(options) {
 
     // html
     if (type === 'html') {
-      if (debug === false) {
-        delete err.stack;
-      }
       fs.readFile(__dirname + '/views/style.css', 'utf8', function(e, style) {
         if (e) return next(e);
         fs.readFile(__dirname + '/views/error.jade', 'utf8', function(e, html) {
@@ -162,10 +151,7 @@ exports = module.exports = function strongErrorHandler(options) {
       }
     // json
     } else if (type === 'json') {
-      if (debug !== true) var error = { message: err.message };
-      else {
-        var error = { message: err.message, stack: err.stack };
-      }
+      var error = { message: err.message, stack: err.stack };
       for (var prop in err) error[prop] = err[prop];
       var json = JSON.stringify({ error: error });
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -189,20 +175,14 @@ exports = module.exports = function strongErrorHandler(options) {
 };
 
 /**
- * Template title, framework authors may override this value.
- */
-
-exports.title = 'Connect';
-
-/**
  * Escape a block of HTML, preserving whitespace.
  * @api private
  */
 
 function escapeHtmlBlock(str) {
   return escapeHtml(str)
-  .replace(doubleSpaceGlobalRegExp, ' &nbsp;')
-  .replace(newLineGlobalRegExp, '<br>');
+  .replace(DOUBLE_SPACE_REGEXP, ' &nbsp;')
+  .replace(NEW_LINE_GLOBAL_REGEXP, '<br>');
 }
 
 /**
