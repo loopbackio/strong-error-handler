@@ -56,13 +56,13 @@ var defer = function(fn) { process.nextTick(fn.bind.apply(fn, arguments)); };
 exports = module.exports = function strongErrorHandler(options) {
   // get environment
   var env = 'production';
+
+  options = options || {};
   // enable the development mode?
   // In dev, all error properties (including) stack traces
   // are sent in the response
-  var debug = false;
+  var debug = options.debug === true;
   // get options
-  options = options || {};
-
   // get log option
   var log = options.log === true;
 
