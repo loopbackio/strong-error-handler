@@ -55,12 +55,6 @@ exports = module.exports = function strongErrorHandler(options) {
   // get log option
   var log = options.log === true;
 
-  // if (typeof log === 'function') {
-  //   process.on('uncaughtException', function(err) {
-  //     delete err.stack;
-  //   });
-  // }
-
   if (log === true) {
     log = logerror;
   }
@@ -72,7 +66,7 @@ exports = module.exports = function strongErrorHandler(options) {
   var safeFields = options.safeFields;
 
   return function strongErrorHandler(err, req, res, next) {
-    if (debug) {
+    if (!debug) {
       delete err.stack;
     }
     // respect err.statusCode

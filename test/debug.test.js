@@ -1,3 +1,5 @@
+//testing when debug is set to true
+
 var after = require('after');
 var assert = require('assert');
 var strongErrorHandler = require('..');
@@ -6,9 +8,9 @@ var request = require('supertest');
 var util = require('util');
 var loopback = require('loopback');
 
-describe('strongErrorHandler()', function() {
+describe('strongErrorHandler() when debug is set to true', function() {
   it('should set nosniff header', function(done) {
-    var server = createServer(new Error('boom!'));
+    var server = createServer(new Error('boom!'), { debug: true });
     request(server)
     .get('/')
     .expect('X-Content-Type-Options', 'nosniff')
@@ -18,7 +20,7 @@ describe('strongErrorHandler()', function() {
   describe('status code', function() {
     describe('when non-error status code', function() {
       it('should set the status code to 500', function(done) {
-        var server = createServer({ status: 200 });
+        var server = createServer({ status: 200, debug: true });
         request(server)
         .get('/')
         .expect(500, done);
@@ -27,7 +29,7 @@ describe('strongErrorHandler()', function() {
 
     describe('when err.status exists', function() {
       it('should set res.statusCode', function(done) {
-        var server = createServer({ status: 404 });
+        var server = createServer({ status: 404, debug: true });
         request(server)
         .get('/')
         .expect(404, done);
@@ -36,7 +38,7 @@ describe('strongErrorHandler()', function() {
 
     describe('when err.statusCode exists', function() {
       it('should set res.statusCode', function(done) {
-        var server = createServer({ statusCode: 404 });
+        var server = createServer({ statusCode: 404, debug: true });
         request(server)
         .get('/')
         .expect(404, done);
@@ -57,11 +59,11 @@ describe('strongErrorHandler()', function() {
     describe('when Error object', function() {
       it('should use "stack" property', function(done) {
         var error = new TypeError('boom!');
-        var server = createServer(error);
+        var server = createServer(error, { debug: true });
         request(server)
         .get('/')
         .set('Accept', 'text/plain')
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
     });
 
@@ -113,7 +115,7 @@ describe('strongErrorHandler()', function() {
     before(function() {
       error = new Error('boom!');
       error.description = 'it went this way';
-      server = createServer(error);
+      server = createServer(error, { debug: true });
     });
 
     describe('when "Accept: text/html"', function() {
@@ -124,7 +126,7 @@ describe('strongErrorHandler()', function() {
         .expect('Content-Type', /text\/html/)
         .expect(/<title>Error: boom!<\/title>/)
         .expect(/<h2><em>500<\/em> Error: boom!<\/h2>/)
-    //    .expect(/<li> &nbsp; &nbsp;at/)
+        .expect(/<li> &nbsp; &nbsp;at/)
         .expect(500, done);
       });
 
@@ -146,7 +148,7 @@ describe('strongErrorHandler()', function() {
           error: {
             message: 'boom!',
             description: 'it went this way',
-          //  stack: error.stack.toString(),
+            stack: error.stack.toString(),
           },
         };
 
@@ -164,7 +166,7 @@ describe('strongErrorHandler()', function() {
         .get('/')
         .set('Accept', 'text/plain')
         .expect('Content-Type', /text\/plain/)
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
     });
 
@@ -174,7 +176,7 @@ describe('strongErrorHandler()', function() {
         .get('/')
         .set('Accept', 'x-unknown')
         .expect('Content-Type', /text\/plain/)
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
     });
 
@@ -184,7 +186,7 @@ describe('strongErrorHandler()', function() {
         .get('/')
         .set('Accept', 'undefined')
         .expect('Content-Type', /text\/plain/)
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
     });
 
@@ -194,7 +196,7 @@ describe('strongErrorHandler()', function() {
         .get('/')
         .set('Accept', 'xml')
         .expect('Content-Type', /text\/plain/)
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
     });
   });
@@ -237,7 +239,7 @@ describe('strongErrorHandler()', function() {
 
     it('should output error', function(done) {
       var error = new Error('boom!');
-      var server = createServer(error);
+      var server = createServer(error, { debug: true });
 
       console.error = function() {
         var log = util.format.apply(null, arguments);
@@ -250,7 +252,7 @@ describe('strongErrorHandler()', function() {
       request(server)
       .get('/')
       .set('Accept', 'text/plain')
-      .expect(500, done);
+      .expect(500, error.stack.toString(), done);
     });
   });
 });
@@ -272,7 +274,7 @@ describe('strongErrorHandler(options)', function() {
 
         it('should produce no output', function(done) {
           var error = new Error('boom!');
-          var server = createServer(error, { log: undefined });
+          var server = createServer(error, { log: undefined, debug: true });
 
           console.error = function() {
             var log = util.format.apply(null, arguments);
@@ -287,7 +289,7 @@ describe('strongErrorHandler(options)', function() {
           request(server)
           .get('/')
           .set('Accept', 'text/plain')
-          .expect(500, done);
+          .expect(500, error.stack.toString(), done);
         });
       });
 
@@ -296,7 +298,7 @@ describe('strongErrorHandler(options)', function() {
 
         it('should write to console', function(done) {
           var error = new Error('boom!');
-          var server = createServer(error);
+          var server = createServer(error, { debug: true });
 
           console.error = function() {
             var log = util.format.apply(null, arguments);
@@ -309,7 +311,7 @@ describe('strongErrorHandler(options)', function() {
           request(server)
           .get('/')
           .set('Accept', 'text/plain')
-          .expect(500, done);
+          .expect(500, error.stack.toString(), done);
         });
       });
     });
@@ -326,7 +328,7 @@ describe('strongErrorHandler(options)', function() {
 
       it('should write to console', function(done) {
         var error = new Error('boom!');
-        var server = createServer(error);
+        var server = createServer(error, { debug: true });
 
         console.error = function() {
           var log = util.format.apply(null, arguments);
@@ -339,7 +341,7 @@ describe('strongErrorHandler(options)', function() {
         request(server)
         .get('/')
         .set('Accept', 'text/plain')
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
     });
 
@@ -356,7 +358,7 @@ describe('strongErrorHandler(options)', function() {
 
       it('should not write to console', function(done) {
         var error = new Error('boom!');
-        var server = createServer(error, { log: false });
+        var server = createServer(error, { log: false, debug: true });
 
         console.error = function() {
           var log = util.format.apply(null, arguments);
@@ -371,7 +373,7 @@ describe('strongErrorHandler(options)', function() {
         request(server)
         .get('/')
         .set('Accept', 'text/plain')
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
 
       it('should pass options on to error handler module', function(done) {
@@ -394,7 +396,7 @@ describe('strongErrorHandler(options)', function() {
     describe('when a function', function() {
       it('should call function', function(done) {
         var error = new Error('boom!');
-        var server = createServer(error, { log: log });
+        var server = createServer(error, { log: log, debug: true });
 
         function log(err, str, req, res) {
           assert.equal(err, error);
@@ -407,7 +409,7 @@ describe('strongErrorHandler(options)', function() {
         request(server)
         .get('/')
         .set('Accept', 'text/plain')
-        .expect(500, done);
+        .expect(500, error.stack.toString(), done);
       });
     });
   });
