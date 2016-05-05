@@ -124,7 +124,6 @@ describe('strongErrorHandler()', function() {
         .expect('Content-Type', /text\/html/)
         .expect(/<title>Error: boom!<\/title>/)
         .expect(/<h2><em>500<\/em> Error: boom!<\/h2>/)
-    //    .expect(/<li> &nbsp; &nbsp;at/)
         .expect(500, done);
       });
 
@@ -146,7 +145,6 @@ describe('strongErrorHandler()', function() {
           error: {
             message: 'boom!',
             description: 'it went this way',
-          //  stack: error.stack.toString(),
           },
         };
 
@@ -195,6 +193,27 @@ describe('strongErrorHandler()', function() {
         .set('Accept', 'xml')
         .expect('Content-Type', /text\/plain/)
         .expect(500, done);
+      });
+    });
+
+    describe('when "an array of errors is thrown"', function() {
+      it('should return 500', function(done) {
+        var errorArr = {
+          message: 'boom!',
+          description: 'bad error',
+        };
+        var errArray = [errorArr, errorArr];
+        var server = createServer(errArray);
+        var expectedOutput = {
+          error:
+            { '0': { message: 'boom!', description: 'bad error' },
+              '1': { message: 'boom!', description: 'bad error' }},
+        };
+        request(server)
+        .get('/')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /application\/json/)
+        .expect(500, expectedOutput, done);
       });
     });
   });

@@ -199,6 +199,28 @@ describe('strongErrorHandler() when debug is set to true', function() {
         .expect(500, error.stack.toString(), done);
       });
     });
+
+    describe('when "an array of errors is thrown"', function() {
+      it('should return 500', function(done) {
+        var errorArr = {
+          message: 'boom!',
+          description: 'bad error',
+          stack: error.stack.toString(),
+        };
+        var errArray = [errorArr, errorArr];
+        var server = createServer(errArray);
+        var expectedOutput = {
+          error:
+            { '0': { message: 'boom!', description: 'bad error', stack: error.stack.toString() },
+              '1': { message: 'boom!', description: 'bad error', stack: error.stack.toString() }},
+        };
+        request(server)
+        .get('/')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /application\/json/)
+        .expect(500, expectedOutput, done);
+      });
+    });
   });
 
   describe('headers sent', function() {

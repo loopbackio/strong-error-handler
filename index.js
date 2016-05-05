@@ -111,7 +111,7 @@ exports = module.exports = function strongErrorHandler(options) {
     if (type === 'html') {
       fs.readFile(__dirname + '/views/style.css', 'utf8', function(e, style) {
         if (e) return next(e);
-        fs.readFile(__dirname + '/views/error.jade', 'utf8', function(e, html) {
+        fs.readFile(__dirname + '/views/error.html', 'utf8', function(e, html) {
           if (e) return next(e);
           var isInspect = !err.stack && String(err) === toString.call(err);
           var errorHtml = !isInspect ?
@@ -139,7 +139,7 @@ exports = module.exports = function strongErrorHandler(options) {
         });
       }
       if (res.statusCode === 404)  {
-        fs.readFile(__dirname + '/views/error-not-found.jade', 'utf8', function(e, html) {
+        fs.readFile(__dirname + '/views/error-not-found.html', 'utf8', function(e, html) {
           if (e) return next(e);
         });
       }
