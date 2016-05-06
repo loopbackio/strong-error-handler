@@ -10,9 +10,9 @@ describe('strongErrorHandler()', function() {
   it('should set nosniff header', function(done) {
     var server = createServer(new Error('boom!'));
     request(server)
-    .get('/')
-    .expect('X-Content-Type-Options', 'nosniff')
-    .expect(500, done);
+      .get('/')
+      .expect('X-Content-Type-Options', 'nosniff')
+      .expect(500, done);
   });
 
   describe('status code', function() {
@@ -143,8 +143,10 @@ describe('strongErrorHandler()', function() {
       it('should return a json response', function(done) {
         var expectedBody = {
           error: {
+            name: 'Error',
             message: 'boom!',
             description: 'it went this way',
+            statusCode: 500,
           },
         };
 
@@ -187,33 +189,13 @@ describe('strongErrorHandler()', function() {
     });
 
     describe('when "Accept: XML(not supported)"', function() {
+      //to be supported: issue#4
       it('should return a plain text response', function(done) {
         request(server)
         .get('/')
         .set('Accept', 'xml')
         .expect('Content-Type', /text\/plain/)
         .expect(500, done);
-      });
-    });
-
-    describe('when "an array of errors is thrown"', function() {
-      it('should return 500', function(done) {
-        var errorArr = {
-          message: 'boom!',
-          description: 'bad error',
-        };
-        var errArray = [errorArr, errorArr];
-        var server = createServer(errArray);
-        var expectedOutput = {
-          error:
-            { '0': { message: 'boom!', description: 'bad error' },
-              '1': { message: 'boom!', description: 'bad error' }},
-        };
-        request(server)
-        .get('/')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /application\/json/)
-        .expect(500, expectedOutput, done);
       });
     });
   });
@@ -397,7 +379,8 @@ describe('strongErrorHandler(options)', function() {
      //arrange
         var app = loopback();
         app.use(loopback.urlNotFound());
-        app.use(loopback.errorHandler({ includeStack: false, log: customLogger }));
+        app.use(loopback.errorHandler({ includeStack: false,
+          log: customLogger }));
 
      //act
         request(app).get('/url-does-not-exist').end();
