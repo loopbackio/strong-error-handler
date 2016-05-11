@@ -1,20 +1,27 @@
 {
   "name": "strong-error-handler",
-  "description": "Strong Loop Error Handler in Production",
+  "description": "Error handler for use in development and production environments.",
   "license": "MIT",
   "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/strongloop/strong-error-handler.git"
   },
+  "main": "lib/handler.js",
   "scripts": {
     "lint": "eslint .",
+    "test": "mocha",
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "debug": "^2.2.0",
+    "http-status": "^0.2.2"
   },
   "devDependencies": {
+    "chai": "^2.1.1",
     "eslint": "^2.5.3",
-    "eslint-config-loopback": "^1.0.0"
+    "eslint-config-loopback": "^3.0.0",
+    "mocha": "^2.1.0",
+    "supertest": "^1.1.0"
   }
 }
