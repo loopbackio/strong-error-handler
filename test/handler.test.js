@@ -65,6 +65,19 @@ describe('strong-error-handler', function() {
 
       request.get('/').expect(400, done);
     });
+
+    it('handles error from `res.statusCode`', function(done) {
+      givenErrorHandlerForError();
+      var handler = _requestHandler;
+      _requestHandler = function(req, res, next) {
+        res.statusCode = 507;
+        handler(req, res, next);
+      };
+      request.get('/').expect(
+        507,
+        {error: {statusCode: 507, message: 'Insufficient Storage'}},
+        done);
+    });
   });
 
   context('logging', function() {
