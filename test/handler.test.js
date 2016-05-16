@@ -191,6 +191,7 @@ describe('strong-error-handler', function() {
   context('JSON response', function() {
     it('contains all error properties when debug=true', function(done) {
       var error = new ErrorWithProps({
+        message: 'a test error message',
         details: 'some details',
         extra: 'sensitive data',
       });
@@ -199,14 +200,35 @@ describe('strong-error-handler', function() {
       requestJson().end(function(err, res) {
         if (err) return done(err);
 
-        var expectedData = {statusCode: 500, stack: error.stack};
-        for (var key in error) expectedData[key] = error[key];
-
+        var expectedData = {
+          statusCode: 500,
+          message: 'a test error message',
+          name: 'ErrorWithProps',
+          details: 'some details',
+          extra: 'sensitive data',
+          stack: error.stack,
+        };
         expect(res.body).to.have.property('error');
         expect(res.body.error).to.eql(expectedData);
         done();
       });
     });
+
+    it('contains non-enumerable Error properties when debug=true',
+      function(done) {
+        var error = new Error('a test error message');
+        givenErrorHandlerForError(error, {debug: true});
+        requestJson().end(function(err, res) {
+          if (err) return done(err);
+          expect(res.body).to.have.property('error');
+          var resError = res.body.error;
+          expect(resError).to.have.property('name', 'Error');
+          expect(resError).to.have.property('message',
+            'a test error message');
+          expect(resError).to.have.property('stack', error.stack);
+          done();
+        });
+      });
 
     it('contains subset of properties when status=4xx', function(done) {
       var error = new ErrorWithProps({
