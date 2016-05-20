@@ -5,6 +5,7 @@
 
 'use strict';
 
+var cloneAllProperties = require('../lib/clone.js');
 var debug = require('debug')('test');
 var expect = require('chai').expect;
 var http = require('http');
@@ -313,10 +314,14 @@ describe('strong-error-handler', function() {
 
         var data = res.body.error;
         expect(data).to.have.property('message').that.match(/multiple errors/);
+        var expectTestError = getExpectedErrorData(testError);
+        delete expectTestError.statusCode;
+        var expectAnotherError = getExpectedErrorData(anotherError);
+        delete expectAnotherError.statusCode;
 
         var expectedDetails = [
-          getExpectedErrorData(testError),
-          getExpectedErrorData(anotherError),
+          expectTestError,
+          expectAnotherError,
           'ERR STRING',
         ];
         expect(data).to.have.property('details').to.eql(expectedDetails);
@@ -432,10 +437,7 @@ function ErrorWithProps(props) {
 util.inherits(ErrorWithProps, Error);
 
 function getExpectedErrorData(err) {
-  // "stack" is a non-enumerable property
-  var data = {stack: err.stack};
-  for (var prop in err) {
-    data[prop] = err[prop];
-  }
+  var data = {};
+  cloneAllProperties(data, err);
   return data;
 }
