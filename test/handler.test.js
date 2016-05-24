@@ -75,7 +75,8 @@ describe('strong-error-handler', function() {
       };
       request.get('/').expect(
         507,
-        {error: {statusCode: 507, message: 'Insufficient Storage'}},
+        {error: {statusCode: 507, status: 507,
+          message: 'Insufficient Storage'}},
         done);
     });
   });
@@ -202,6 +203,7 @@ describe('strong-error-handler', function() {
 
         var expectedData = {
           statusCode: 500,
+          status: 500,
           message: 'a test error message',
           name: 'ErrorWithProps',
           details: 'some details',
@@ -248,6 +250,7 @@ describe('strong-error-handler', function() {
           name: 'ValidationError',
           message: 'The model instance is not valid.',
           statusCode: 422,
+          status: 422,
           details: 'some details',
           // notice the property "extra" is not included
         });
@@ -273,6 +276,7 @@ describe('strong-error-handler', function() {
         expect(res.body).to.have.property('error');
         expect(res.body.error).to.eql({
           statusCode: 500,
+          status: 500,
           message: 'Internal Server Error',
         });
 
@@ -289,6 +293,7 @@ describe('strong-error-handler', function() {
         expect(res.body).to.eql({
           error: {
             statusCode: 500,
+            status: 500,
             message: 'Internal Server Error',
           },
         });
@@ -331,6 +336,7 @@ describe('strong-error-handler', function() {
 
         expect(res.body.error).to.eql({
           statusCode: 500,
+          status: 500,
           message: 'Internal Server Error',
         });
         done();
@@ -344,6 +350,7 @@ describe('strong-error-handler', function() {
 
         expect(res.body.error).to.eql({
           statusCode: 500,
+          status: 500,
           message: 'Error Message',
         });
         done();
