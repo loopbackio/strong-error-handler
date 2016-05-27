@@ -14,7 +14,9 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
+    "accepts": "^1.3.3",
     "debug": "^2.2.0",
+    "ejs": "^2.4.2",
     "http-status": "^0.2.2"
   },
   "devDependencies": {
@@ -22,6 +24,11 @@
     "eslint": "^2.5.3",
     "eslint-config-loopback": "^3.0.0",
     "mocha": "^2.1.0",
+    "parseurl": "^1.3.1",
+    "qs": "^6.2.0",
     "supertest": "^1.1.0"
+  },
+  "browser": {
+    "strong-error-handler": false
   }
 }

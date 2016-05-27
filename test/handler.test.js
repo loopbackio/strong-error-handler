@@ -9,6 +9,8 @@ var cloneAllProperties = require('../lib/clone.js');
 var debug = require('debug')('test');
 var expect = require('chai').expect;
 var http = require('http');
+var parseParam = require('qs').parse;
+var parseUrl = require('parseurl');
 var strongErrorHandler = require('..');
 var supertest = require('supertest');
 var util = require('util');
@@ -361,6 +363,153 @@ describe('strong-error-handler', function() {
         .expect('Content-Type', /^application\/json/);
     }
   });
+
+  context('HTML response', function() {
+    it('contains all error properties when debug=true', function(done) {
+      var error = new ErrorWithProps({
+        message: 'a test error message',
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+      error.statusCode = 500;
+      givenErrorHandlerForError(error, {debug: true});
+      requestHTML()
+        .expect(500)
+        .expect(/<title>ErrorWithProps<\/title>/)
+        .expect(/500(.*?)a test error message/)
+        .expect(/extra(.*?)sensitive data/)
+        .expect(/details(.*?)some details/)
+        .expect(/id="stacktrace"(.*?)ErrorWithProps: a test error message/,
+          done);
+    });
+
+    it('contains subset of properties when status=4xx', function(done) {
+      var error = new ErrorWithProps({
+        name: 'ValidationError',
+        message: 'The model instance is not valid.',
+        statusCode: 422,
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+      givenErrorHandlerForError(error, {debug: false});
+      requestHTML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(422);
+          var body = res.error.text;
+          expect(body).to.match(/some details/);
+          expect(body).to.not.match(/sensitive data/);
+          expect(body).to.match(/<title>ValidationError<\/title>/);
+          expect(body).to.match(/422(.*?)The model instance is not valid./);
+          done();
+        });
+    });
+
+    it('contains only safe info when status=5xx', function(done) {
+      // Mock an error reported by fs.readFile
+      var error = new ErrorWithProps({
+        name: 'Error',
+        message: 'ENOENT: no such file or directory, open "/etc/passwd"',
+        errno: -2,
+        code: 'ENOENT',
+        syscall: 'open',
+        path: '/etc/password',
+      });
+      givenErrorHandlerForError(error);
+
+      requestHTML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(500);
+          var body = res.error.text;
+          expect(body).to.not.match(/\/etc\/password/);
+          expect(body).to.not.match(/-2/);
+          expect(body).to.not.match(/ENOENT/);
+          // only have the following
+          expect(body).to.match(/<title>Internal Server Error<\/title>/);
+          expect(body).to.match(/500(.*?)Internal Server Error/);
+          done();
+        });
+    });
+
+    function requestHTML(url) {
+      return request.get(url || '/')
+        .set('Accept', 'text/html')
+        .expect('Content-Type', /^text\/html/);
+    }
+  });
+
+  context('Content Negotiation', function() {
+    it('defaults to json without options', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {});
+      request.get('/')
+        .set('Accept', '*/*')
+        .expect('Content-Type', /^application\/json/, done);
+    });
+
+    it('honors accepted content-type', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {
+        defaultType: 'application/json',
+      });
+      request.get('/')
+        .set('Accept', 'text/html')
+        .expect('Content-Type', /^text\/html/, done);
+    });
+
+    it('honors order of accepted content-type', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {
+        defaultType: 'text/html',
+      });
+      request.get('/')
+        // `application/json` will be used because its provided first
+        .set('Accept', 'application/json, text/html')
+        .expect('Content-Type', /^application\/json/, done);
+    });
+
+    it('honors order of accepted content-types of text/html', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {
+        defaultType: 'application/json',
+      });
+      request.get('/')
+        // text/html will be used because its provided first
+        .set('Accept', 'text/html, application/json')
+        .expect('Content-Type', /^text\/html/, done);
+    });
+
+    it('picks first supported type upon multiple accepted', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {
+        defaultType: 'application/json',
+      });
+      request.get('/')
+        .set('Accept', '*/*, not-supported, text/html, application/json')
+        .expect('Content-Type', /^text\/html/, done);
+    });
+
+    it('falls back for unsupported option.defaultType', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {
+        defaultType: 'unsupported',
+      });
+      request.get('/')
+        .set('Accept', '*/*')
+        .expect('Content-Type', /^application\/json/, done);
+    });
+
+    it('returns defaultType for unsupported type', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {
+        defaultType: 'text/html',
+      });
+      request.get('/')
+        .set('Accept', 'unsupported/type')
+        .expect('Content-Type', /^text\/html/, done);
+    });
+
+    it('supports query _format', function(done) {
+      givenErrorHandlerForError(new Error('Some error'), {
+        defaultType: 'text/html',
+      });
+      request.get('/?_format=html')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /^text\/html/, done);
+    });
+  });
 });
 
 var _httpServer, _requestHandler, request;
@@ -381,9 +530,17 @@ function givenErrorHandlerForError(error, options) {
 
   var handler = strongErrorHandler(options);
   _requestHandler = function(req, res, next) {
-    debug('Invoking strong-error-handler');
-    handler(error, req, res, next);
+    queryMiddleware(req, res, function() {
+      debug('Invoking strong-error-handler');
+      handler(error, req, res, next);
+    });
   };
+}
+
+function queryMiddleware(req, res, next) {
+  var queryString = parseUrl(req).query;
+  req.query = parseParam(queryString);
+  next();
 }
 
 function setupHttpServerAndClient(done) {
