@@ -8,9 +8,7 @@
 var cloneAllProperties = require('../lib/clone.js');
 var debug = require('debug')('test');
 var expect = require('chai').expect;
-var http = require('http');
-var parseParam = require('qs').parse;
-var parseUrl = require('parseurl');
+var express = require('express');
 var strongErrorHandler = require('..');
 var supertest = require('supertest');
 var util = require('util');
@@ -512,7 +510,7 @@ describe('strong-error-handler', function() {
   });
 });
 
-var _httpServer, _requestHandler, request;
+var app, _requestHandler, request;
 function resetRequestHandler() {
   _requestHandler = null;
 }
@@ -530,21 +528,14 @@ function givenErrorHandlerForError(error, options) {
 
   var handler = strongErrorHandler(options);
   _requestHandler = function(req, res, next) {
-    queryMiddleware(req, res, function() {
-      debug('Invoking strong-error-handler');
-      handler(error, req, res, next);
-    });
+    debug('Invoking strong-error-handler');
+    handler(error, req, res, next);
   };
 }
 
-function queryMiddleware(req, res, next) {
-  var queryString = parseUrl(req).query;
-  req.query = parseParam(queryString);
-  next();
-}
-
 function setupHttpServerAndClient(done) {
-  _httpServer = http.createServer(function(req, res) {
+  app = express();
+  app.use(function(req, res, next) {
     if (!_requestHandler) {
       var msg = 'Error handler middleware was not setup in this test';
       console.error(msg);
@@ -553,31 +544,29 @@ function setupHttpServerAndClient(done) {
       res.end(msg);
       return;
     }
-
-    _requestHandler(req, res, function(err) {
-      console.log('unexpected: strong-error-handler called next with '
-        (err && (err.stack || err)) || 'no error');
-      res.statusCode = 500;
-      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-      res.end(err ?
-        'Unhandled strong-error-handler error:\n' + (err.stack || err) :
-        'The error was silently discared by strong-error-handler');
-    });
+    _requestHandler(req, res, warnUnhandledError);
   });
 
-  _httpServer.once('error', function(err) {
+  app.listen(0, function() {
+    var url = 'http://127.0.0.1:' + this.address().port;
+    debug('Test server listening on %s', url);
+    request = supertest(app);
+    done();
+  })
+  .once('error', function(err) {
     debug('Cannot setup HTTP server: %s', err.stack);
     done(err);
   });
+}
 
-  _httpServer.once('listening', function() {
-    var url = 'http://127.0.0.1:' + this.address().port;
-    debug('Test server listening on %s', url);
-    request = supertest(url);
-    done();
-  });
-
-  _httpServer.listen(0, '127.0.0.1');
+function warnUnhandledError(err) {
+  console.log('unexpected: strong-error-handler called next with '
+    (err && (err.stack || err)) || 'no error');
+  res.statusCode = 500;
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.end(err ?
+    'Unhandled strong-error-handler error:\n' + (err.stack || err) :
+    'The error was silently discared by strong-error-handler');
 }
 
 function ErrorWithProps(props) {
