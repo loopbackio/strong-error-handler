@@ -1,7 +1,7 @@
 {
   "name": "strong-error-handler",
   "description": "Error handler for use in development and production environments.",
-  "license": "MIT",
+  "license": "Artistic-2.0",
   "version": "1.0.1",
   "repository": {
     "type": "git",
