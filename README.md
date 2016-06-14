@@ -8,10 +8,6 @@ Error handler for use in development (debug) and production environments.
  - When in debug mode, detailed information such as stack traces
    are returned in the HTTP responses.
 
-JSON is the only supported response format at this time.
-
-*There are plans to support other formats such as Text, HTML, and XML.*
-
 ## Install
 
 ```bash
@@ -46,6 +42,15 @@ In LoopBack applications, add the following entry to your
   }
 }
 ```
+
+## Content Type
+
+Depending on the request header's `Accepts`, response will be returned in
+ the corresponding content-type, current supported types include:
+- JSON (`json`/`application/json`)
+- HTML (`html`/`text/html`)
+
+*There are plans to support other formats such as Text and XML.*
 
 ## Options
 
