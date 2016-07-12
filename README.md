@@ -2,7 +2,7 @@
 
 Error handler for use in development (debug) and production environments.
 
- - When run in production mode, error responses are purposely undetailed
+ - When run in production mode, error responses are purposely left without detail
    in order to prevent leaking sensitive information.
 
  - When in debug mode, detailed information such as stack traces
