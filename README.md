@@ -125,7 +125,8 @@ app.use(errorHandler({ log: false }));
   ```
 1. In the `./server`, delete `middleware.production.json`.
 1. In the `./server`, create `middleware.development.json` containing:
-  ```JSON
+
+  ```
   {
   "final:after": {
     "strong-error-handler": {
