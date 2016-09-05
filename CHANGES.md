@@ -1,3 +1,21 @@
+2016-09-05, Version 1.1.0
+=========================
+
+ * Fix minor Syntax error (Loay)
+
+ * Globalize strong-error-handler (David Cheung)
+
+ * Update eslint infrastructure (Loay)
+
+ * Add documentation (Loay)
+
+ * Improve grammar in readme. (Richard Pringle)
+
+ * Test with express instead of http server (David Cheung)
+
+ * HTML response for accepted headers (David Cheung)
+
+
 2016-05-26, Version 1.0.1
 =========================
 
