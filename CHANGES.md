@@ -1,3 +1,13 @@
+2016-10-07, Version 1.1.1
+=========================
+
+ * Update pt translation file (Candy)
+
+ * Update translation files - round#2 (Candy)
+
+ * globalization: add translated strings (gunjpan)
+
+
 2016-09-05, Version 1.1.0
 =========================
 
