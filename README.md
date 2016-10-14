@@ -12,7 +12,7 @@ Error handler for use in development (debug) and production environments.
 
 ## Debug Mode
 
-- Full error stack traces and internal details of any object passed passed as the error will be sent back to the client
+- Full error stack traces and internal details of any object passed as the error will be sent back to the client
   in the HTTP responses when an error occurs.
 
 ## Response Format
