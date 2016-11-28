@@ -58,7 +58,7 @@ In LoopBack applications, add the following entry to your
     "strong-error-handler": {
       "params": {
          "debug": false,
-         "log": true,
+         "log": true
        }
     }
   }
