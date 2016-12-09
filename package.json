@@ -30,5 +30,10 @@
   },
   "browser": {
     "strong-error-handler": false
+  },
+  "ci": {
+    "downstreamIgnoreList": [
+      "dashboard-controller"
+    ]
   }
 }
