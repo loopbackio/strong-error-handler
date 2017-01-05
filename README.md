@@ -90,6 +90,8 @@ app.use(myErrorLogger());
 
 ## Migration from LoopBack 2.x
 
+NOTE: This is only required for applications scaffolded with old versions of the `slc loopback` tool.
+
 To migrate a LoopBack 2.x application to use `strong-error-handler`:
 
 1. In `package.json` dependencies, remove `"errorhandler": "^x.x.x”,`
