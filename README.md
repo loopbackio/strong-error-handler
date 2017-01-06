@@ -88,7 +88,7 @@ app.use(errorHandler({ log: false }));
 app.use(myErrorLogger());
 ```
 
-## Migration from LoopBack 2.x
+## Migration from old LoopBack error handler
 
 NOTE: This is only required for applications scaffolded with old versions of the `slc loopback` tool.
 
