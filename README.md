@@ -80,13 +80,47 @@ The content type of the response depends on the request's `Accepts` header.
 
 ### Customizing log format
 
-To use a different log format, disable `errorHandler.log` and add your own custom
-error-handling middleware; for example:
+**Express** 
+
+To use a different log format, add your own custom error-handling middleware then disable `errorHandler.log`. 
+For example, in an Express application:
 
 ```js
-app.use(errorHandler({ log: false }));
 app.use(myErrorLogger());
+app.use(errorHandler({ log: false }));
 ```
+
+In general, add `strong-error-handler` as the last middleware function, just before calling `app.listen()`.
+
+**LoopBack**
+
+For LoopBack applications, put custom error-logging middleware in a separate file; for example, `server/middleware/error-logger.js`:
+
+```
+module.exports = function(options) {
+  return function logError(err, req, res, next) {
+    console.log('unhandled error' ,err);
+    next(err);
+  };
+};
+```
+
+Then in `server/middleware.json`, specify your custom error logging function as follows:
+
+```
+{
+  // ...
+  "final:after": {
+    "./middleware/error-logger": {},
+    "strong-error-handler": {
+      "params": {
+        log: false
+      }
+    }
+}
+```
+
+The default `middleware.development.json` file explicitly enables logging in strong-error-handler params, so you will need to change that file too.
 
 ## Migration from old LoopBack error handler
 
