@@ -52,6 +52,8 @@ In LoopBack applications, add the following entry to `server/middleware.json`:
 }
 ```
 
+In general, `strong-error-handler` must be the last middleware function registered.
+
 The above configuration will log errors to the server console, but not return stack traces in HTTP responses.
 For details on configuration options, see below.
 
@@ -75,7 +77,7 @@ The content type of the response depends on the request's `Accepts` header.
 
 | Option | Type | Default | Description |
 | ---- | ---- | ---- | ---- |
-| debug | Boolean&nbsp;&nbsp;&nbsp; | `false` | If `true`, HTTP responses include all error properties, including sensitive data such as file paths, URLs and stack traces. *See Examples below* |
+| debug | Boolean&nbsp;&nbsp;&nbsp; | `false` | If `true`, HTTP responses include all error properties, including sensitive data such as file paths, URLs and stack traces. See [Example output](#example) below. |
 | log | Boolean | `true` |  If `true`, all errors are printed via `console.error`, including an array of fields (custom error properties) that are safe to include in response messages (both 4xx and 5xx). <br/> If `false`, sends only the error back in the response. |
 
 ### Customizing log format
@@ -133,10 +135,18 @@ To migrate a LoopBack 2.x application to use `strong-error-handler`:
     <pre>npm install --save strong-error-handler</pre>
 1. In `server/config.json`, remove:
     <pre>
-    "errorHandler": {
-      "disableStackTrace": false
+    "remoting": {
+      ...
+      "errorHandler": {
+        "disableStackTrace": false
+      }</pre>
+  and replace it with:
+  <pre>
+  "remoting": {
+    ...,
+    "rest": {
+      "handleErrors": false
     }</pre>
-  and replace it with `"handleErrors": false`.
 1. In `server/middleware.json`, remove:
     <pre>
     "final:after": {
@@ -150,7 +160,6 @@ To migrate a LoopBack 2.x application to use `strong-error-handler`:
 1. Delete `server/middleware.production.json`.
 1. Create `server/middleware.development.json` containing:
   <pre>
-  ...
   "final:after": {
     "strong-error-handler": {
       "params": {
@@ -160,6 +169,9 @@ To migrate a LoopBack 2.x application to use `strong-error-handler`:
     }
   }
 </pre>
+
+For more information, see 
+[Migrating apps to LoopBack 3.0](http://loopback.io/doc/en/lb3/Migrating-to-3.0.html#update-use-of-rest-error-handler).
 
 ## Example
 
