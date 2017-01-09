@@ -435,6 +435,81 @@ describe('strong-error-handler', function() {
     }
   });
 
+  context('XML response', function() {
+    it('contains all error properties when debug=true', function(done) {
+      var error = new ErrorWithProps({
+        message: 'a test error message',
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+      error.statusCode = 500;
+      givenErrorHandlerForError(error, {debug: true});
+      requestXML()
+        .expect(500)
+        .expect(/<statusCode>500<\/statusCode>/)
+        .expect(/<name>ErrorWithProps<\/name>/)
+        .expect(/<message>a test error message<\/message>/)
+        .expect(/<details>some details<\/details>/)
+        .expect(/<extra>sensitive data<\/extra>/)
+        .expect(/<stack>ErrorWithProps: a test error message(.*?)/, done);
+    });
+
+    it('contains subset of properties when status=4xx', function(done) {
+      var error = new ErrorWithProps({
+        name: 'ValidationError',
+        message: 'The model instance is not valid.',
+        statusCode: 422,
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+      givenErrorHandlerForError(error, {debug: false});
+      requestXML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(422);
+          var body = res.error.text;
+          expect(body).to.match(/<details>some details<\/details>/);
+          expect(body).to.not.match(/<extra>sensitive data<\/extra>/);
+          expect(body).to.match(/<name>ValidationError<\/name>/);
+          expect(body).to.match(
+            /<message>The model instance is not valid.<\/message>/
+          );
+          done();
+        });
+    });
+
+    it('contains only safe info when status=5xx', function(done) {
+      // Mock an error reported by fs.readFile
+      var error = new ErrorWithProps({
+        name: 'Error',
+        message: 'ENOENT: no such file or directory, open "/etc/passwd"',
+        errno: -2,
+        code: 'ENOENT',
+        syscall: 'open',
+        path: '/etc/password',
+      });
+      givenErrorHandlerForError(error);
+
+      requestXML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(500);
+          var body = res.error.text;
+          expect(body).to.not.match(/\/etc\/password/);
+          expect(body).to.not.match(/-2/);
+          expect(body).to.not.match(/ENOENT/);
+          // only have the following
+          expect(body).to.match(/<statusCode>500<\/statusCode>/);
+          expect(body).to.match(/<message>Internal Server Error<\/message>/);
+          done();
+        });
+    });
+
+    function requestXML(url) {
+      return request.get(url || '/')
+        .set('Accept', 'text/xml')
+        .expect('Content-Type', /^text\/xml/);
+    }
+  });
+
   context('Content Negotiation', function() {
     it('defaults to json without options', function(done) {
       givenErrorHandlerForError(new Error('Some error'), {});
