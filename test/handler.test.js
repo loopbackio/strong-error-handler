@@ -231,6 +231,49 @@ describe('strong-error-handler', function() {
         });
       });
 
+    it('should allow setting safe fields when status=5xx', function(done) {
+      var error = new ErrorWithProps({
+        name: 'Error',
+        safeField: 'SAFE',
+        unsafeField: 'UNSAFE',
+      });
+      givenErrorHandlerForError(error, {
+        safeFields: ['safeField'],
+      });
+
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.have.property('safeField', 'SAFE');
+        expect(res.body.error).not.to.have.property('unsafeField');
+
+        done();
+      });
+    });
+
+    it('should allow setting safe fields when status=4xx', function(done) {
+      var error = new ErrorWithProps({
+        name: 'Error',
+        statusCode: 422,
+        safeField: 'SAFE',
+        unsafeField: 'UNSAFE',
+      });
+      givenErrorHandlerForError(error, {
+        safeFields: ['safeField'],
+      });
+
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.have.property('safeField', 'SAFE');
+        expect(res.body.error).not.to.have.property('unsafeField');
+
+        done();
+      });
+    });
+
     it('contains subset of properties when status=4xx', function(done) {
       var error = new ErrorWithProps({
         name: 'ValidationError',
