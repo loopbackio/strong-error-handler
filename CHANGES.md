@@ -1,3 +1,9 @@
+2017-01-30, Version 1.2.1
+=========================
+
+ * Stop adding safeFields to original options arg (Miroslav Bajtoš)
+
+
 2017-01-30, Version 1.2.0
 =========================
 
