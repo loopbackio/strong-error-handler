@@ -193,6 +193,7 @@ describe('strong-error-handler', function() {
     it('contains all error properties when debug=true', function(done) {
       var error = new ErrorWithProps({
         message: 'a test error message',
+        code: 'MACHINE_READABLE_CODE',
         details: 'some details',
         extra: 'sensitive data',
       });
@@ -205,9 +206,56 @@ describe('strong-error-handler', function() {
           statusCode: 500,
           message: 'a test error message',
           name: 'ErrorWithProps',
+          code: 'MACHINE_READABLE_CODE',
           details: 'some details',
           extra: 'sensitive data',
           stack: error.stack,
+        };
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.eql(expectedData);
+        done();
+      });
+    });
+
+    it('includes code property for 4xx status codes when debug=false',
+    function(done) {
+      var error = new ErrorWithProps({
+        statusCode: 400,
+        message: 'error with code',
+        name: 'ErrorWithCode',
+        code: 'MACHINE_READABLE_CODE',
+      });
+      givenErrorHandlerForError(error, {debug: false});
+
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+
+        var expectedData = {
+          statusCode: 400,
+          message: 'error with code',
+          name: 'ErrorWithCode',
+          code: 'MACHINE_READABLE_CODE',
+        };
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.eql(expectedData);
+        done();
+      });
+    });
+
+    it('excludes code property for 5xx status codes when debug=false',
+    function(done) {
+      var error = new ErrorWithProps({
+        statusCode: 500,
+        code: 'MACHINE_READABLE_CODE',
+      });
+      givenErrorHandlerForError(error, {debug: false});
+
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+
+        var expectedData = {
+          statusCode: 500,
+          message: 'Internal Server Error',
         };
         expect(res.body).to.have.property('error');
         expect(res.body.error).to.eql(expectedData);
