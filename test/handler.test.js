@@ -626,6 +626,16 @@ describe('strong-error-handler', function() {
         .expect('Content-Type', /^text\/html/, done);
     });
   });
+
+  it('does not modify "options" argument', function(done) {
+    var options = {log: false, debug: false};
+    givenErrorHandlerForError(new Error(), options);
+    request.get('/').end(function(err) {
+      if (err) return done(err);
+      expect(options).to.eql({log: false, debug: false});
+      done();
+    });
+  });
 });
 
 var app, _requestHandler, request;
