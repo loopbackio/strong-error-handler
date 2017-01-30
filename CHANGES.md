@@ -1,3 +1,23 @@
+2017-01-30, Version 1.2.0
+=========================
+
+ * Support options.safeFields (Zak Barbuto)
+
+ * Readme cleanup (#36) (Rand McKinney)
+
+ * xml support added (Ahmet Ozisik)
+
+ * Update paid support URL (Siddhi Pai)
+
+ * Downstream ignore dashboard-controller (Simon Ho)
+
+ * Update pt translation file (Candy)
+
+ * Make the examples more clear (Amir Jafarian)
+
+ * Fix readme (Amir Jafarian)
+
+
 2016-10-07, Version 1.1.1
 =========================
 
