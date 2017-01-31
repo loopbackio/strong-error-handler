@@ -625,6 +625,12 @@ describe('strong-error-handler', function() {
         .set('Accept', 'application/json')
         .expect('Content-Type', /^text\/html/, done);
     });
+
+    it('handles unknown _format query', function() {
+      givenErrorHandlerForError();
+      return request.get('/?_format=unknown')
+        .expect('X-Warning', /_format.*not supported/);
+    });
   });
 
   it('does not modify "options" argument', function(done) {
@@ -672,7 +678,18 @@ function setupHttpServerAndClient(done) {
       res.end(msg);
       return;
     }
+
     _requestHandler(req, res, warnUnhandledError);
+
+    function warnUnhandledError(err) {
+      console.log('unexpected: strong-error-handler called next with',
+        (err && (err.stack || err)) || 'no error');
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.end(err ?
+        'Unhandled strong-error-handler error:\n' + (err.stack || err) :
+        'The error was silently discared by strong-error-handler');
+    }
   });
 
   app.listen(0, function() {
@@ -685,16 +702,6 @@ function setupHttpServerAndClient(done) {
     debug('Cannot setup HTTP server: %s', err.stack);
     done(err);
   });
-}
-
-function warnUnhandledError(err) {
-  console.log('unexpected: strong-error-handler called next with '
-    (err && (err.stack || err)) || 'no error');
-  res.statusCode = 500;
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.end(err ?
-    'Unhandled strong-error-handler error:\n' + (err.stack || err) :
-    'The error was silently discared by strong-error-handler');
 }
 
 function ErrorWithProps(props) {
