@@ -3,6 +3,9 @@
   "description": "Error handler for use in development and production environments.",
   "license": "MIT",
   "version": "1.2.1",
+  "engines": {
+    "node": ">=4"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/strongloop/strong-error-handler.git"
