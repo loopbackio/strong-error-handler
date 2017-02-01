@@ -7,7 +7,8 @@ In production mode, `strong-error-handler` omits details from error responses to
 - For 5xx errors, the output contains only the status code and the status name from the HTTP specification.
 - For 4xx errors, the output contains the full error message (`error.message`) and the contents of the `details`
   property (`error.details`) that `ValidationError` typically uses to provide machine-readable details
-  about validation problems.
+  about validation problems. It also includes `error.code` to allow a machine-readable error code to be passed
+  through which could be used, for example, for translation.
 
 In debug mode, `strong-error-handler` returns full error stack traces and internal details of any error objects to the client in the HTTP responses.
 
@@ -204,13 +205,13 @@ For more information, see
 
 ## Example
 
-Error generated when `debug: false` :
+5xx error generated when `debug: false` :
 
 ```
 { error: { statusCode: 500, message: 'Internal Server Error' } }
 ```
 
-Error generated when `debug: true` :
+The same error generated when `debug: true` :
 
 ```
 { error:
@@ -230,3 +231,14 @@ Error generated when `debug: true` :
   at tryOnImmediate (timers.js:543:15)    
   at processImmediate [as _immediateCallback] (timers.js:523:5)' }}
 ```
+
+4xx error generated when `debug: false` :
+
+```
+{ error:
+  { statusCode: 422,
+  name: 'Unprocessable Entity',
+  message: 'Missing required fields',
+  code: 'MISSING_REQUIRED_FIELDS' }}
+```
+
