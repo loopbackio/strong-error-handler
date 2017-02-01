@@ -60,7 +60,7 @@ For details on configuration options, see below.
 
 ### Response format and content type
 
-The `strong-error-handler` package supports HTML and JSON responses:
+The `strong-error-handler` package supports JSON, HTML and XML responses:
 
 - When the object is a standard Error object, it returns the string provided by the stack property in HTML/text
   responses.
@@ -71,8 +71,9 @@ The content type of the response depends on the request's `Accepts` header.
 
 -  For Accepts header `json` or `application/json`, the response content type is JSON.
 -  For Accepts header `html` or `text/html`, the response content type is HTML.
+-  For Accepts header `xml` or `text/xml`, the response content type is XML.
 
-*There are plans to support other formats such as Text and XML.*
+*There are plans to support other formats such as Plain-text.*
 
 ## Options
 
@@ -241,4 +242,3 @@ The same error generated when `debug: true` :
   message: 'Missing required fields',
   code: 'MISSING_REQUIRED_FIELDS' }}
 ```
-
