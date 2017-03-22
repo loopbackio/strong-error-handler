@@ -1,3 +1,21 @@
+2017-03-22, Version 2.0.0
+=========================
+
+ * Fix markdown formatting in README (Miroslav Bajtoš)
+
+ * Fix the order of arguments in the jsdoc comment. (Charlie Schliesser)
+
+ * Update readme with added XML support (David Cheung)
+
+ * Add a machine-readable "code" property (Zak Barbuto)
+
+ * Upgrade dependencies to their latest versions (Miroslav Bajtoš)
+
+ * Describe "safeFields" option in README (Zak Barbuto)
+
+ * Drop support for Node v0.10/v0.12 (Miroslav Bajtoš)
+
+
 2017-01-30, Version 1.2.1
 =========================
 
