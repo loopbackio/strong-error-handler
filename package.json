@@ -21,7 +21,7 @@
     "debug": "^2.2.0",
     "ejs": "^2.4.2",
     "http-status": "^1.0.0",
-    "js2xmlparser": "^2.0.2",
+    "js2xmlparser": "^3.0.0",
     "strong-globalize": "^2.6.7"
   },
   "devDependencies": {
