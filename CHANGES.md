@@ -1,3 +1,9 @@
+2017-04-18, Version 2.1.0
+=========================
+
+ * Bump js2xmlparser dependency to version 3.0.0 (Matthew O'Donoghue)
+
+
 2017-03-22, Version 2.0.0
 =========================
 
