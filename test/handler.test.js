@@ -628,6 +628,41 @@ describe('strong-error-handler', function() {
         .expect('Content-Type', /^application\/json/, done);
     });
 
+    it('disables content-type negotiation when negotiateContentType=false',
+      function(done) {
+        givenErrorHandlerForError(new Error('Some error'), {
+          negotiateContentType: false,
+          defaultType: 'application/json',
+        });
+        request.get('/')
+          .set('Accept', 'text/html')
+          .expect('Content-Type', /^application\/json/, done);
+      }
+    );
+
+    it('chooses resolved type when negotiateContentType=false + not-supported',
+      function(done) {
+        givenErrorHandlerForError(new Error('Some error'), {
+          negotiateContentType: false,
+          defaultType: 'unsupported/type',
+        });
+        request.get('/')
+          .set('Accept', 'text/html')
+          .expect('Content-Type', /^text\/html/, done);
+      }
+    );
+
+    it('chooses default type when negotiateContentType=false + not-supported ',
+      function(done) {
+        givenErrorHandlerForError(new Error('Some error'), {
+          negotiateContentType: false,
+          defaultType: 'unsupported/type',
+        });
+        request.get('/')
+          .expect('Content-Type', /^application\/json/, done);
+      }
+    );
+
     it('honors order of accepted content-types of text/html', function(done) {
       givenErrorHandlerForError(new Error('Some error'), {
         defaultType: 'application/json',
