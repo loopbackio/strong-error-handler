@@ -1,3 +1,9 @@
+2017-07-20, Version 2.2.0
+=========================
+
+ * Add new option: negotiateContentType (Raj)
+
+
 2017-04-18, Version 2.1.0
 =========================
 
