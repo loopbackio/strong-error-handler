@@ -1,3 +1,17 @@
+2017-10-13, Version 2.3.0
+=========================
+
+ * update strong-globalize to 3.1.0 (shimks)
+
+ * CODEOWNERS: add zbarbuto (Miroslav Bajtoš)
+
+ * Update Issue and PR Templates (#59) (Sakib Hasan)
+
+ * fixed json typo of server/middleware.json (karanssj4)
+
+ * Add CODEOWNER file (Diana Lau)
+
+
 2017-07-20, Version 2.2.0
 =========================
 
