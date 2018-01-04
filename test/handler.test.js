@@ -446,9 +446,33 @@ describe('strong-error-handler', function() {
       });
     });
 
+    it('uses custom defined JSON response renderer', function(done) {
+      var error = new ErrorWithProps({
+        message: 'Error Message',
+        statusCode: 500,
+      });
+      givenErrorHandlerForError(error, {
+        debug: true,
+        jsonRenderer: __dirname + '/custom-renderers/send-json',
+      });
+      requestJson().expect(500).end(function(err, res) {
+        if (err) return done(err);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.eql({
+          message: 'Error Message',
+          name: 'ErrorWithProps',
+          stack: error.stack,
+          statusCode: 500,
+        });
+        expect(res.body).to.have.property('custom');
+        expect(res.body.custom).to.eql('custom data');
+        done();
+      });
+    });
+
     function requestJson(url) {
       return request.get(url || '/')
-        .set('Accept', 'text/plain')
+        .set('Accept', 'application/json')
         .expect('Content-Type', /^application\/json/);
     }
   });
@@ -519,10 +543,114 @@ describe('strong-error-handler', function() {
         });
     });
 
+    it('uses custom defined HTML response renderer', function(done) {
+      var error = new ErrorWithProps({
+        name: 'Error',
+        message: 'Error Message',
+      });
+      givenErrorHandlerForError(error, {
+        debug: true,
+        htmlRenderer: __dirname + '/custom-renderers/send-html',
+      });
+      requestHTML()
+        .end(function(err, res) {
+          var body = res.error.text;
+          expect(body).to.eql('<html><body>Error Message</body></html>');
+          done();
+        });
+    });
+
     function requestHTML(url) {
       return request.get(url || '/')
         .set('Accept', 'text/html')
         .expect('Content-Type', /^text\/html/);
+    }
+  });
+
+  context('text response', function() {
+    it('contains all error properties when debug=true', function(done) {
+      var error = new ErrorWithProps({
+        message: 'a test error message',
+      });
+      error.statusCode = 500;
+      givenErrorHandlerForError(error, {debug: true});
+      requestText()
+        .end(function(err, res) {
+          var body = res.error.text;
+          expect(body).to.match(/a test error message/);
+          expect(body).to.match(/\[500\]/);
+          done();
+        });
+    });
+
+    it('contains subset of properties when status=4xx', function(done) {
+      var error = new ErrorWithProps({
+        name: 'ValidationError',
+        message: 'The model instance is not valid.',
+        statusCode: 422,
+        extra: 'sensitive data',
+      });
+      givenErrorHandlerForError(error, {debug: true});
+      requestText()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(422);
+          var body = res.error.text;
+          expect(body).to.match(/The model instance is not valid./);
+          expect(body).to.not.match(/sensitive data/);
+          expect(body).to.match(/\[422\]/);
+          done();
+        });
+    });
+
+    it('contains only safe info when status=5xx', function(done) {
+      // Mock an error reported by fs.readFile
+      var error = new ErrorWithProps({
+        name: 'Error',
+        message: 'ENOENT: no such file or directory, open "/etc/passwd"',
+        errno: -2,
+        code: 'ENOENT',
+        syscall: 'open',
+        path: '/etc/password',
+      });
+      givenErrorHandlerForError(error);
+
+      requestText()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(500);
+          var body = res.error.text;
+          expect(body).to.not.match(/\/etc\/password/);
+          expect(body).to.not.match(/-2/);
+          expect(body).to.not.match(/ENOENT/);
+          // only have the following
+          expect(body).to.match(/\[500\]/);
+          expect(body).to.match(/Internal Server Error/);
+          done();
+        });
+    });
+
+    it('uses custom defined text response renderer', function(done) {
+      var error = new ErrorWithProps({
+        name: 'Error',
+        message: 'Error Message',
+        statusCode: 500,
+      });
+      givenErrorHandlerForError(error, {
+        debug: true,
+        textRenderer: __dirname + '/custom-renderers/send-text',
+      });
+      requestText()
+        .end(function(err, res) {
+          var body = res.error.text;
+          console.log(body);
+          expect(body).to.match(/\{500\}/);
+          done();
+        });
+    });
+
+    function requestText(url) {
+      return request.get(url || '/')
+        .set('Accept', 'text/plain')
+        .expect('Content-Type', /^text\/plain/);
     }
   });
 
@@ -590,6 +718,23 @@ describe('strong-error-handler', function() {
           // only have the following
           expect(body).to.match(/<statusCode>500<\/statusCode>/);
           expect(body).to.match(/<message>Internal Server Error<\/message>/);
+          done();
+        });
+    });
+
+    it('uses custom defined XML response renderer', function(done) {
+      var error = new ErrorWithProps({
+        message: 'Error Message',
+        statusCode: 500,
+      });
+      givenErrorHandlerForError(error, {
+        debug: true,
+        xmlRenderer: __dirname + '/custom-renderers/send-xml',
+      });
+      requestXML()
+        .end(function(err, res) {
+          var body = res.error.text;
+          expect(body).to.match(/<custom>custom data<\/custom>/);
           done();
         });
     });
