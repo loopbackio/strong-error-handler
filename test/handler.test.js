@@ -472,6 +472,47 @@ describe('strong-error-handler', function() {
           done);
     });
 
+    it('HTML-escapes all 4xx response properties in production mode',
+      function(done) {
+        const error = new ErrorWithProps({
+          name: 'Error<img onerror=alert(1) src=a>',
+          message:
+            'No instance with id <img onerror=alert(1) src=a> found for Model',
+          statusCode: 404,
+        });
+        givenErrorHandlerForError(error, {debug: false});
+        requestHTML()
+          .end(function(err, res) {
+            expect(res.statusCode).to.eql(404);
+            const body = res.error.text;
+            expect(body).to.match(
+              /<title>Error&lt;img onerror=alert\(1\) src=a&gt;<\/title>/
+            );
+            expect(body).to.match(
+              /with id &lt;img onerror=alert\(1\) src=a&gt; found for Model/
+            );
+            done();
+          });
+      }
+    );
+
+    it('HTML-escapes all 5xx response properties in development mode',
+      function(done) {
+        const error = new ErrorWithProps({
+          message: 'a test error message<img onerror=alert(1) src=a>',
+        });
+        error.statusCode = 500;
+        givenErrorHandlerForError(error, {debug: true});
+        requestHTML()
+          .expect(500)
+          .expect(/<title>ErrorWithProps<\/title>/)
+          .expect(
+            /500(.*?)a test error message&lt;img onerror=alert\(1\) src=a&gt;/,
+            done
+          );
+      }
+    );
+
     it('contains subset of properties when status=4xx', function(done) {
       var error = new ErrorWithProps({
         name: 'ValidationError',
