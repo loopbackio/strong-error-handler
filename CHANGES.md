@@ -1,3 +1,11 @@
+2018-01-25, Version 2.3.1
+=========================
+
+ * Escape strings in HTML output (XSS fix) (Zachery Metcalf)
+
+ * Update LICENSE.md (Diana Lau)
+
+
 2017-10-13, Version 2.3.0
 =========================
 
