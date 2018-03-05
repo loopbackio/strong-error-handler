@@ -1,3 +1,9 @@
+2018-03-05, Version 2.3.2
+=========================
+
+ * Undefined safeFields revert to data #71 (Zak Barbuto)
+
+
 2018-01-25, Version 2.3.1
 =========================
 
