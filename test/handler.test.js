@@ -300,6 +300,24 @@ describe('strong-error-handler', function() {
       });
     });
 
+    it('safe fields falls back to existing data', function(done) {
+      var error = new ErrorWithProps({
+        name: 'Error',
+        isSafe: false,
+      });
+      givenErrorHandlerForError(error, {
+        safeFields: ['statusCode', 'isSafe'],
+      });
+
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+        expect(res.body.error.statusCode).to.equal(500);
+        expect(res.body.error.isSafe).to.equal(false);
+
+        done();
+      });
+    });
+
     it('should allow setting safe fields when status=4xx', function(done) {
       var error = new ErrorWithProps({
         name: 'Error',
