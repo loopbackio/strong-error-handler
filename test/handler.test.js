@@ -397,43 +397,96 @@ describe('strong-error-handler', function() {
 
       requestJson().expect(500).end(function(err, res) {
         if (err) return done(err);
-        expect(res.body).to.eql({
-          error: {
-            statusCode: 500,
-            message: 'Internal Server Error',
-          },
-        });
+        const data = res.body.error;
+        expect(data).to.have.property('message').that.match(/multiple errors/);
+        expect(data).to.have.property('details').eql([
+          {statusCode: 500, message: 'Internal Server Error'},
+          {statusCode: 500, message: 'Internal Server Error'},
+          {statusCode: 500, message: 'Internal Server Error'},
+        ]);
         done();
       });
     });
 
     it('returns all array items when debug=true', function(done) {
-      var testError = new ErrorWithProps({
+      const testError = new ErrorWithProps({
         message: 'expected test error',
         statusCode: 400,
       });
-      var anotherError = new ErrorWithProps({
+      const anotherError = new ErrorWithProps({
         message: 'another expected error',
         statusCode: 500,
       });
-      var errors = [testError, anotherError, 'ERR STRING'];
+      const errors = [testError, anotherError, 'ERR STRING'];
       givenErrorHandlerForError(errors, {debug: true});
 
       requestJson().expect(500).end(function(err, res) {
         if (err) return done(err);
 
-        var data = res.body.error;
+        const data = res.body.error;
         expect(data).to.have.property('message').that.match(/multiple errors/);
-        var expectTestError = getExpectedErrorData(testError);
-        delete expectTestError.statusCode;
-        var expectAnotherError = getExpectedErrorData(anotherError);
-        delete expectAnotherError.statusCode;
 
-        var expectedDetails = [
-          expectTestError,
-          expectAnotherError,
-          'ERR STRING',
+        const expectedDetails = [
+          getExpectedErrorData(testError),
+          getExpectedErrorData(anotherError),
+          {message: 'ERR STRING', statusCode: 500},
         ];
+        expect(data).to.have.property('details').to.eql(expectedDetails);
+        done();
+      });
+    });
+
+    it('includes safeFields of array items when debug=false', (done) => {
+      const internalError = new ErrorWithProps({
+        message: 'a test error message',
+        code: 'MACHINE_READABLE_CODE',
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+      const validationError = new ErrorWithProps({
+        name: 'ValidationError',
+        message: 'The model instance is not valid.',
+        statusCode: 422,
+        code: 'VALIDATION_ERROR',
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+
+      const errors = [internalError, validationError, 'ERR STRING'];
+      givenErrorHandlerForError(errors, {
+        debug: false,
+        safeFields: ['code'],
+      });
+
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+        const data = res.body.error;
+
+        const expectedInternalError = {
+          statusCode: 500,
+          message: 'Internal Server Error',
+          code: 'MACHINE_READABLE_CODE',
+          // notice the property "extra" is not included
+        };
+        const expectedValidationError = {
+          statusCode: 422,
+          message: 'The model instance is not valid.',
+          name: 'ValidationError',
+          code: 'VALIDATION_ERROR',
+          details: 'some details',
+          // notice the property "extra" is not included
+        };
+        const expectedErrorFromString = {
+          message: 'Internal Server Error',
+          statusCode: 500,
+        };
+        const expectedDetails = [
+          expectedInternalError,
+          expectedValidationError,
+          expectedErrorFromString,
+        ];
+
+        expect(data).to.have.property('message').that.match(/multiple errors/);
         expect(data).to.have.property('details').to.eql(expectedDetails);
         done();
       });
