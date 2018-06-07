@@ -16,6 +16,7 @@ var util = require('util');
 describe('strong-error-handler', function() {
   before(setupHttpServerAndClient);
   beforeEach(resetRequestHandler);
+  after(stopHttpServerAndClient);
 
   it('sets nosniff header', function(done) {
     givenErrorHandlerForError();
@@ -786,7 +787,7 @@ describe('strong-error-handler', function() {
   });
 });
 
-var app, _requestHandler, request;
+var app, _requestHandler, request, server;
 function resetRequestHandler() {
   _requestHandler = null;
 }
@@ -834,7 +835,7 @@ function setupHttpServerAndClient(done) {
     }
   });
 
-  app.listen(0, function() {
+  server = app.listen(0, function() {
     var url = 'http://127.0.0.1:' + this.address().port;
     debug('Test server listening on %s', url);
     request = supertest(app);
@@ -844,6 +845,10 @@ function setupHttpServerAndClient(done) {
     debug('Cannot setup HTTP server: %s', err.stack);
     done(err);
   });
+}
+
+function stopHttpServerAndClient() {
+  server.close();
 }
 
 function ErrorWithProps(props) {
