@@ -219,50 +219,50 @@ describe('strong-error-handler', function() {
     });
 
     it('includes code property for 4xx status codes when debug=false',
-    function(done) {
-      var error = new ErrorWithProps({
-        statusCode: 400,
-        message: 'error with code',
-        name: 'ErrorWithCode',
-        code: 'MACHINE_READABLE_CODE',
-      });
-      givenErrorHandlerForError(error, {debug: false});
-
-      requestJson().end(function(err, res) {
-        if (err) return done(err);
-
-        var expectedData = {
+      function(done) {
+        var error = new ErrorWithProps({
           statusCode: 400,
           message: 'error with code',
           name: 'ErrorWithCode',
           code: 'MACHINE_READABLE_CODE',
-        };
-        expect(res.body).to.have.property('error');
-        expect(res.body.error).to.eql(expectedData);
-        done();
+        });
+        givenErrorHandlerForError(error, {debug: false});
+
+        requestJson().end(function(err, res) {
+          if (err) return done(err);
+
+          var expectedData = {
+            statusCode: 400,
+            message: 'error with code',
+            name: 'ErrorWithCode',
+            code: 'MACHINE_READABLE_CODE',
+          };
+          expect(res.body).to.have.property('error');
+          expect(res.body.error).to.eql(expectedData);
+          done();
+        });
       });
-    });
 
     it('excludes code property for 5xx status codes when debug=false',
-    function(done) {
-      var error = new ErrorWithProps({
-        statusCode: 500,
-        code: 'MACHINE_READABLE_CODE',
-      });
-      givenErrorHandlerForError(error, {debug: false});
-
-      requestJson().end(function(err, res) {
-        if (err) return done(err);
-
-        var expectedData = {
+      function(done) {
+        var error = new ErrorWithProps({
           statusCode: 500,
-          message: 'Internal Server Error',
-        };
-        expect(res.body).to.have.property('error');
-        expect(res.body.error).to.eql(expectedData);
-        done();
+          code: 'MACHINE_READABLE_CODE',
+        });
+        givenErrorHandlerForError(error, {debug: false});
+
+        requestJson().end(function(err, res) {
+          if (err) return done(err);
+
+          var expectedData = {
+            statusCode: 500,
+            message: 'Internal Server Error',
+          };
+          expect(res.body).to.have.property('error');
+          expect(res.body.error).to.eql(expectedData);
+          done();
+        });
       });
-    });
 
     it('contains non-enumerable Error properties when debug=true',
       function(done) {
@@ -841,10 +841,10 @@ function setupHttpServerAndClient(done) {
     request = supertest(app);
     done();
   })
-  .once('error', function(err) {
-    debug('Cannot setup HTTP server: %s', err.stack);
-    done(err);
-  });
+    .once('error', function(err) {
+      debug('Cannot setup HTTP server: %s', err.stack);
+      done(err);
+    });
 }
 
 function stopHttpServerAndClient() {
