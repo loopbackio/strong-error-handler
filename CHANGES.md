@@ -1,3 +1,13 @@
+2018-06-12, Version 3.0.0
+=========================
+
+ * Allow safeFields to work with arrays (shimks)
+
+ * run lint (shimks)
+
+ * drop node 4 from travis and update dependencies (shimks)
+
+
 2018-03-05, Version 2.3.2
 =========================
 
