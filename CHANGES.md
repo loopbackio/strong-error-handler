@@ -1,4 +1,10 @@
-2018-06-12, Version 3.0.0
+2018-07-17, Version 3.1.0
+=========================
+
+ * [WebFM] cs/pl/ru translation (candytangnb)
+
+
+2018-06-11, Version 3.0.0
 =========================
 
  * Allow safeFields to work with arrays (shimks)
