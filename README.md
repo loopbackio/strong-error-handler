@@ -92,12 +92,16 @@ The content type of the response depends on the request's `Accepts` header.
 | safeFields | [String] | `[]` |  Specifies property names on errors that are allowed to be passed through in 4xx and 5xx responses. See [Safe error fields](#safe-error-fields) below. |
 | defaultType | String | `"json"` | Specify the default response content type to use when the client does not provide any Accepts header.
 | negotiateContentType | Boolean | true | Negotiate the response content type via Accepts request header. When disabled, strong-error-handler will always use the default content type when producing responses. Disabling content type negotiation is useful if you want to see JSON-formatted error responses in browsers, because browsers usually prefer HTML and XML over other content types.
+| htmlRenderer | String | 'send-html' | Operation function to render HTML with signature `fn(res, data)`. Defaults to `./send-html` (`lib/send-html.js`). |
+| jsonRenderer | String | 'send-json' | Operation function to render JSON with signature `fn(res, data)`. Defaults to `./send-json` (`lib/send-json.js`). |
+| textRenderer | String | 'send-text' | Operation function to render text with signature `fn(res, data)`. Defaults to `./send-text` (`lib/send-text.js`). |
+| xmlRenderer | String | 'send-xml' | Operation function to render XML with signature `fn(res, data)`. Defaults to `./send-xml` (`lib/send-xml.js`). |
 
 ### Customizing log format
 
-**Express** 
+**Express**
 
-To use a different log format, add your own custom error-handling middleware then disable `errorHandler.log`. 
+To use a different log format, add your own custom error-handling middleware then disable `errorHandler.log`.
 For example, in an Express application:
 
 ```js
@@ -165,6 +169,34 @@ Using the above configuration, an error containing an `errorCode` property will 
 }
 ```
 
+### Custom Renderer Functions
+
+You can switch out the default renderers for HTML, JSON, text and XML responses with custom renderers:
+
+```
+{
+  // ...
+  "final:after": {
+    "strong-error-handler": {
+      "params": {
+        "htmlRenderer": "$!./lib/send-html"
+      }
+    }
+}
+```
+
+The `$!` characters indicate that the path is relative to the location of `middleware.json`.
+
+*./lib/send-html.js:*
+
+```
+module.exports = function(res, data) {
+  res.send("Hello.");
+}
+```
+
+Using the above configuration, a request with `Content-type: text/html` that is handled by strong-error-handler will return a `Content-type: text/html` and a response body of `Hello.`.
+
 ## Migration from old LoopBack error handler
 
 NOTE: This is only required for applications scaffolded with old versions of the `slc loopback` tool.
@@ -211,7 +243,7 @@ To migrate a LoopBack 2.x application to use `strong-error-handler`:
     }
 </pre>
 
-For more information, see 
+For more information, see
 [Migrating apps to LoopBack 3.0](http://loopback.io/doc/en/lb3/Migrating-to-3.0.html#update-use-of-rest-error-handler).
 
 ## Example
@@ -229,17 +261,17 @@ The same error generated when `debug: true` :
   { statusCode: 500,
   name: 'Error',
   message: 'a test error message',
-  stack: 'Error: a test error message    
-  at Context.<anonymous> (User/strong-error-handler/test/handler.test.js:220:21)    
-  at callFnAsync (User/strong-error-handler/node_modules/mocha/lib/runnable.js:349:8)    
-  at Test.Runnable.run (User/strong-error-handler/node_modules/mocha/lib/runnable.js:301:7)    
-  at Runner.runTest (User/strong-error-handler/node_modules/mocha/lib/runner.js:422:10)    
-  at User/strong-error-handler/node_modules/mocha/lib/runner.js:528:12    
-  at next (User/strong-error-handler/node_modules/mocha/lib/runner.js:342:14)    
-  at User/strong-error-handler/node_modules/mocha/lib/runner.js:352:7    
-  at next (User/strong-error-handler/node_modules/mocha/lib/runner.js:284:14)    
-  at Immediate._onImmediate (User/strong-error-handler/node_modules/mocha/lib/runner.js:320:5)    
-  at tryOnImmediate (timers.js:543:15)    
+  stack: 'Error: a test error message
+  at Context.<anonymous> (User/strong-error-handler/test/handler.test.js:220:21)
+  at callFnAsync (User/strong-error-handler/node_modules/mocha/lib/runnable.js:349:8)
+  at Test.Runnable.run (User/strong-error-handler/node_modules/mocha/lib/runnable.js:301:7)
+  at Runner.runTest (User/strong-error-handler/node_modules/mocha/lib/runner.js:422:10)
+  at User/strong-error-handler/node_modules/mocha/lib/runner.js:528:12
+  at next (User/strong-error-handler/node_modules/mocha/lib/runner.js:342:14)
+  at User/strong-error-handler/node_modules/mocha/lib/runner.js:352:7
+  at next (User/strong-error-handler/node_modules/mocha/lib/runner.js:284:14)
+  at Immediate._onImmediate (User/strong-error-handler/node_modules/mocha/lib/runner.js:320:5)
+  at tryOnImmediate (timers.js:543:15)
   at processImmediate [as _immediateCallback] (timers.js:523:5)' }}
 ```
 
