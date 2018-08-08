@@ -78,7 +78,8 @@ describe('strong-error-handler', function() {
       request.get('/').expect(
         507,
         {error: {statusCode: 507, message: 'Insufficient Storage'}},
-        done);
+        done
+      );
     });
   });
 
@@ -145,7 +146,8 @@ describe('strong-error-handler', function() {
     it('handles array argument', function(done) {
       givenErrorHandlerForError(
         [new TypeError('ERR1'), new Error('ERR2')],
-        {log: true});
+        {log: true}
+      );
 
       request.get('/api').end(function(err) {
         if (err) return done(err);
@@ -565,8 +567,7 @@ describe('strong-error-handler', function() {
             );
             done();
           });
-      }
-    );
+      });
 
     it('HTML-escapes all 5xx response properties in development mode',
       function(done) {
@@ -582,8 +583,7 @@ describe('strong-error-handler', function() {
             /500(.*?)a test error message&lt;img onerror=alert\(1\) src=a&gt;/,
             done
           );
-      }
-    );
+      });
 
     it('contains subset of properties when status=4xx', function(done) {
       var error = new ErrorWithProps({
@@ -750,8 +750,7 @@ describe('strong-error-handler', function() {
         request.get('/')
           .set('Accept', 'text/html')
           .expect('Content-Type', /^application\/json/, done);
-      }
-    );
+      });
 
     it('chooses resolved type when negotiateContentType=false + not-supported',
       function(done) {
@@ -762,8 +761,7 @@ describe('strong-error-handler', function() {
         request.get('/')
           .set('Accept', 'text/html')
           .expect('Content-Type', /^text\/html/, done);
-      }
-    );
+      });
 
     it('chooses default type when negotiateContentType=false + not-supported ',
       function(done) {
@@ -773,8 +771,7 @@ describe('strong-error-handler', function() {
         });
         request.get('/')
           .expect('Content-Type', /^application\/json/, done);
-      }
-    );
+      });
 
     it('honors order of accepted content-types of text/html', function(done) {
       givenErrorHandlerForError(new Error('Some error'), {
