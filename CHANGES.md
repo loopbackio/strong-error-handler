@@ -1,4 +1,10 @@
-2018-07-17, Version 3.1.0
+2018-08-30, Version 3.2.0
+=========================
+
+ * Add type definition and writeErrorToResponse (shimks)
+
+
+2018-07-16, Version 3.1.0
 =========================
 
  * [WebFM] cs/pl/ru translation (candytangnb)
