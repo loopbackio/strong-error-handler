@@ -27,13 +27,14 @@ declare namespace errorHandlerFactory {
    * @param req Incoming request
    * @param res Response
    * @param options Options for error handler settings
+   * @returns false if the response has been sent before the error
    */
   function writeErrorToResponse(
     err: Error,
     req: Express.Request,
     res: Express.Response,
     options?: ErrorWriterOptions
-  ): void;
+  ): boolean;
 
   /**
    * Error-handling middleware function. Includes server-side logging

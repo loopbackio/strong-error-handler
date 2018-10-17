@@ -38,6 +38,24 @@ describe('strong-error-handler', function() {
     request.get('/').expect(200, 'empty', done);
   });
 
+  it('handles response headers already sent without destroying the request',
+    function(done) {
+      givenErrorHandlerForError();
+      var handler = _requestHandler;
+      _requestHandler = function(req, res, next) {
+        res.end('empty');
+        process.nextTick(function() {
+          handler(req, res, next);
+        });
+      };
+      request.post('/').send(givenLargeRequest())
+        .expect(200, 'empty', function(err) {
+          // Skip EPIPE
+          if (err && err.code !== 'EPIPE') return done(err);
+          else return done();
+        });
+    });
+
   context('status code', function() {
     it('converts non-error "err.status" to 500', function(done) {
       givenErrorHandlerForError(new ErrorWithProps({status: 200}));
@@ -918,4 +936,9 @@ function getExpectedErrorData(err) {
   var data = {};
   cloneAllProperties(data, err);
   return data;
+}
+
+function givenLargeRequest() {
+  const data = Buffer.alloc(2 * 1024 * 1024, 'A', 'utf-8');
+  return data.toString();
 }
