@@ -40,5 +40,6 @@
     "downstreamIgnoreList": [
       "dashboard-controller"
     ]
-  }
+  },
+  "author": "IBM Corp."
 }
