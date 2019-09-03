@@ -520,6 +520,27 @@ describe('strong-error-handler', function() {
       });
     });
 
+    it('handles Error objects containing circular properties', function(done) {
+      var circularObject = {};
+      circularObject.recursiveProp = circularObject;
+      var error = new ErrorWithProps({
+        statusCode: 422,
+        message: 'The model instance is not valid.',
+        name: 'ValidationError',
+        code: 'VALIDATION_ERROR',
+        details: circularObject,
+      });
+      givenErrorHandlerForError(error, {debug: true});
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.have.property('details');
+        expect(res.body.error.details).to.have.property('recursiveProp',
+          '[Circular]');
+        done();
+      });
+    });
+
     function requestJson(url) {
       return request.get(url || '/')
         .set('Accept', 'text/plain')
