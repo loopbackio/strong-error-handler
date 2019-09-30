@@ -1,3 +1,11 @@
+2019-09-30, Version 3.3.0
+=========================
+
+ * fix: handle Error objects with circular properties (dkrantsberg)
+
+ * chore: update copyrights years (Agnes Lin)
+
+
 2018-08-30, Version 3.2.0
 =========================
 
