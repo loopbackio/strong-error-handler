@@ -31,8 +31,8 @@
     "eslint": "^6.5.1",
     "eslint-config-loopback": "^13.1.0",
     "express": "^4.16.3",
-    "mocha": "^5.2.0",
-    "supertest": "^3.1.0"
+    "mocha": "^6.2.1",
+    "supertest": "^4.0.2"
   },
   "browser": {
     "strong-error-handler": false
