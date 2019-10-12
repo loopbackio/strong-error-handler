@@ -1,3 +1,19 @@
+2019-10-12, Version 3.4.0
+=========================
+
+ * chore: js2xmlparser to ^4.0.0 (Miroslav Bajtoš)
+
+ * chore: update dev-dependencies (mocha, supertest) (Miroslav Bajtoš)
+
+ * chore: update eslint & config to latest (Miroslav Bajtoš)
+
+ * chore: update strong-globalize to ^5.0.2 (Miroslav Bajtoš)
+
+ * chore: update debug to ^4.1.1 (Miroslav Bajtoš)
+
+ * feat: drop support for Node.js 6.x (Miroslav Bajtoš)
+
+
 2019-09-30, Version 3.3.0
 =========================
 
