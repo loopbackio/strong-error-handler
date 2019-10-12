@@ -5,13 +5,13 @@
 
 'use strict';
 
-var cloneAllProperties = require('../lib/clone.js');
-var debug = require('debug')('test');
-var expect = require('chai').expect;
-var express = require('express');
-var strongErrorHandler = require('..');
-var supertest = require('supertest');
-var util = require('util');
+const cloneAllProperties = require('../lib/clone.js');
+const debug = require('debug')('test');
+const expect = require('chai').expect;
+const express = require('express');
+const strongErrorHandler = require('..');
+const supertest = require('supertest');
+const util = require('util');
 
 describe('strong-error-handler', function() {
   before(setupHttpServerAndClient);
@@ -27,7 +27,7 @@ describe('strong-error-handler', function() {
 
   it('handles response headers already sent', function(done) {
     givenErrorHandlerForError();
-    var handler = _requestHandler;
+    const handler = _requestHandler;
     _requestHandler = function(req, res, next) {
       res.end('empty');
       process.nextTick(function() {
@@ -70,7 +70,7 @@ describe('strong-error-handler', function() {
 
     it('handles error from `res.statusCode`', function(done) {
       givenErrorHandlerForError();
-      var handler = _requestHandler;
+      const handler = _requestHandler;
       _requestHandler = function(req, res, next) {
         res.statusCode = 507;
         handler(req, res, next);
@@ -84,7 +84,7 @@ describe('strong-error-handler', function() {
   });
 
   context('logging', function() {
-    var logs;
+    let logs;
 
     beforeEach(redirectConsoleError);
     afterEach(restoreConsoleError);
@@ -129,7 +129,7 @@ describe('strong-error-handler', function() {
       request.get('/api').end(function(err) {
         if (err) return done(err);
 
-        var msg = logs[0];
+        const msg = logs[0];
         // the request method
         expect(msg).to.contain('GET');
         // the request path
@@ -152,7 +152,7 @@ describe('strong-error-handler', function() {
       request.get('/api').end(function(err) {
         if (err) return done(err);
 
-        var msg = logs[0];
+        const msg = logs[0];
         // the request method
         expect(msg).to.contain('GET');
         // the request path
@@ -171,17 +171,17 @@ describe('strong-error-handler', function() {
       givenErrorHandlerForError('STRING ERROR', {log: true});
       request.get('/').end(function(err) {
         if (err) return done(err);
-        var msg = logs[0];
+        const msg = logs[0];
         expect(msg).to.contain('STRING ERROR');
         done();
       });
     });
 
-    var _consoleError = console.error;
+    const _consoleError = console.error;
     function redirectConsoleError() {
       logs = [];
       console.error = function() {
-        var msg = util.format.apply(util, arguments);
+        const msg = util.format.apply(util, arguments);
         logs.push(msg);
       };
     }
@@ -194,7 +194,7 @@ describe('strong-error-handler', function() {
 
   context('JSON response', function() {
     it('contains all error properties when debug=true', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         message: 'a test error message',
         code: 'MACHINE_READABLE_CODE',
         details: 'some details',
@@ -205,7 +205,7 @@ describe('strong-error-handler', function() {
       requestJson().end(function(err, res) {
         if (err) return done(err);
 
-        var expectedData = {
+        const expectedData = {
           statusCode: 500,
           message: 'a test error message',
           name: 'ErrorWithProps',
@@ -222,7 +222,7 @@ describe('strong-error-handler', function() {
 
     it('includes code property for 4xx status codes when debug=false',
       function(done) {
-        var error = new ErrorWithProps({
+        const error = new ErrorWithProps({
           statusCode: 400,
           message: 'error with code',
           name: 'ErrorWithCode',
@@ -233,7 +233,7 @@ describe('strong-error-handler', function() {
         requestJson().end(function(err, res) {
           if (err) return done(err);
 
-          var expectedData = {
+          const expectedData = {
             statusCode: 400,
             message: 'error with code',
             name: 'ErrorWithCode',
@@ -247,7 +247,7 @@ describe('strong-error-handler', function() {
 
     it('excludes code property for 5xx status codes when debug=false',
       function(done) {
-        var error = new ErrorWithProps({
+        const error = new ErrorWithProps({
           statusCode: 500,
           code: 'MACHINE_READABLE_CODE',
         });
@@ -256,7 +256,7 @@ describe('strong-error-handler', function() {
         requestJson().end(function(err, res) {
           if (err) return done(err);
 
-          var expectedData = {
+          const expectedData = {
             statusCode: 500,
             message: 'Internal Server Error',
           };
@@ -268,12 +268,12 @@ describe('strong-error-handler', function() {
 
     it('contains non-enumerable Error properties when debug=true',
       function(done) {
-        var error = new Error('a test error message');
+        const error = new Error('a test error message');
         givenErrorHandlerForError(error, {debug: true});
         requestJson().end(function(err, res) {
           if (err) return done(err);
           expect(res.body).to.have.property('error');
-          var resError = res.body.error;
+          const resError = res.body.error;
           expect(resError).to.have.property('name', 'Error');
           expect(resError).to.have.property('message',
             'a test error message');
@@ -283,7 +283,7 @@ describe('strong-error-handler', function() {
       });
 
     it('should allow setting safe fields when status=5xx', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'Error',
         safeField: 'SAFE',
         unsafeField: 'UNSAFE',
@@ -304,7 +304,7 @@ describe('strong-error-handler', function() {
     });
 
     it('safe fields falls back to existing data', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'Error',
         isSafe: false,
       });
@@ -322,7 +322,7 @@ describe('strong-error-handler', function() {
     });
 
     it('should allow setting safe fields when status=4xx', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'Error',
         statusCode: 422,
         safeField: 'SAFE',
@@ -344,7 +344,7 @@ describe('strong-error-handler', function() {
     });
 
     it('contains subset of properties when status=4xx', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'ValidationError',
         message: 'The model instance is not valid.',
         statusCode: 422,
@@ -370,7 +370,7 @@ describe('strong-error-handler', function() {
 
     it('contains only safe info when status=5xx', function(done) {
       // Mock an error reported by fs.readFile
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'Error',
         message: 'ENOENT: no such file or directory, open "/etc/passwd"',
         errno: -2,
@@ -394,7 +394,7 @@ describe('strong-error-handler', function() {
     });
 
     it('handles array argument as 500 when debug=false', function(done) {
-      var errors = [new Error('ERR1'), new Error('ERR2'), 'ERR STRING'];
+      const errors = [new Error('ERR1'), new Error('ERR2'), 'ERR STRING'];
       givenErrorHandlerForError(errors);
 
       requestJson().expect(500).end(function(err, res) {
@@ -521,9 +521,9 @@ describe('strong-error-handler', function() {
     });
 
     it('handles Error objects containing circular properties', function(done) {
-      var circularObject = {};
+      const circularObject = {};
       circularObject.recursiveProp = circularObject;
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         statusCode: 422,
         message: 'The model instance is not valid.',
         name: 'ValidationError',
@@ -550,7 +550,7 @@ describe('strong-error-handler', function() {
 
   context('HTML response', function() {
     it('contains all error properties when debug=true', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         message: 'a test error message',
         details: 'some details',
         extra: 'sensitive data',
@@ -607,7 +607,7 @@ describe('strong-error-handler', function() {
       });
 
     it('contains subset of properties when status=4xx', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'ValidationError',
         message: 'The model instance is not valid.',
         statusCode: 422,
@@ -618,7 +618,7 @@ describe('strong-error-handler', function() {
       requestHTML()
         .end(function(err, res) {
           expect(res.statusCode).to.eql(422);
-          var body = res.error.text;
+          const body = res.error.text;
           expect(body).to.match(/some details/);
           expect(body).to.not.match(/sensitive data/);
           expect(body).to.match(/<title>ValidationError<\/title>/);
@@ -629,7 +629,7 @@ describe('strong-error-handler', function() {
 
     it('contains only safe info when status=5xx', function(done) {
       // Mock an error reported by fs.readFile
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'Error',
         message: 'ENOENT: no such file or directory, open "/etc/passwd"',
         errno: -2,
@@ -642,7 +642,7 @@ describe('strong-error-handler', function() {
       requestHTML()
         .end(function(err, res) {
           expect(res.statusCode).to.eql(500);
-          var body = res.error.text;
+          const body = res.error.text;
           expect(body).to.not.match(/\/etc\/password/);
           expect(body).to.not.match(/-2/);
           expect(body).to.not.match(/ENOENT/);
@@ -662,7 +662,7 @@ describe('strong-error-handler', function() {
 
   context('XML response', function() {
     it('contains all error properties when debug=true', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         message: 'a test error message',
         details: 'some details',
         extra: 'sensitive data',
@@ -680,7 +680,7 @@ describe('strong-error-handler', function() {
     });
 
     it('contains subset of properties when status=4xx', function(done) {
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'ValidationError',
         message: 'The model instance is not valid.',
         statusCode: 422,
@@ -691,7 +691,7 @@ describe('strong-error-handler', function() {
       requestXML()
         .end(function(err, res) {
           expect(res.statusCode).to.eql(422);
-          var body = res.error.text;
+          const body = res.error.text;
           expect(body).to.match(/<details>some details<\/details>/);
           expect(body).to.not.match(/<extra>sensitive data<\/extra>/);
           expect(body).to.match(/<name>ValidationError<\/name>/);
@@ -704,7 +704,7 @@ describe('strong-error-handler', function() {
 
     it('contains only safe info when status=5xx', function(done) {
       // Mock an error reported by fs.readFile
-      var error = new ErrorWithProps({
+      const error = new ErrorWithProps({
         name: 'Error',
         message: 'ENOENT: no such file or directory, open "/etc/passwd"',
         errno: -2,
@@ -717,7 +717,7 @@ describe('strong-error-handler', function() {
       requestXML()
         .end(function(err, res) {
           expect(res.statusCode).to.eql(500);
-          var body = res.error.text;
+          const body = res.error.text;
           expect(body).to.not.match(/\/etc\/password/);
           expect(body).to.not.match(/-2/);
           expect(body).to.not.match(/ENOENT/);
@@ -848,7 +848,7 @@ describe('strong-error-handler', function() {
   });
 
   it('does not modify "options" argument', function(done) {
-    var options = {log: false, debug: false};
+    const options = {log: false, debug: false};
     givenErrorHandlerForError(new Error(), options);
     request.get('/').end(function(err) {
       if (err) return done(err);
@@ -858,7 +858,7 @@ describe('strong-error-handler', function() {
   });
 });
 
-var app, _requestHandler, request, server;
+let app, _requestHandler, request, server;
 function resetRequestHandler() {
   _requestHandler = null;
 }
@@ -874,7 +874,7 @@ function givenErrorHandlerForError(error, options) {
     options.log = false;
   }
 
-  var handler = strongErrorHandler(options);
+  const handler = strongErrorHandler(options);
   _requestHandler = function(req, res, next) {
     debug('Invoking strong-error-handler');
     handler(error, req, res, next);
@@ -885,7 +885,7 @@ function setupHttpServerAndClient(done) {
   app = express();
   app.use(function(req, res, next) {
     if (!_requestHandler) {
-      var msg = 'Error handler middleware was not setup in this test';
+      const msg = 'Error handler middleware was not setup in this test';
       console.error(msg);
       res.statusCode = 500;
       res.setHeader('Content-Type', 'text/plain; charset=utf-8');
@@ -907,7 +907,7 @@ function setupHttpServerAndClient(done) {
   });
 
   server = app.listen(0, function() {
-    var url = 'http://127.0.0.1:' + this.address().port;
+    const url = 'http://127.0.0.1:' + this.address().port;
     debug('Test server listening on %s', url);
     request = supertest(app);
     done();
@@ -924,7 +924,7 @@ function stopHttpServerAndClient() {
 
 function ErrorWithProps(props) {
   this.name = props.name || 'ErrorWithProps';
-  for (var p in props) {
+  for (const p in props) {
     this[p] = props[p];
   }
 
@@ -936,7 +936,7 @@ function ErrorWithProps(props) {
 util.inherits(ErrorWithProps, Error);
 
 function getExpectedErrorData(err) {
-  var data = {};
+  const data = {};
   cloneAllProperties(data, err);
   return data;
 }
