@@ -78,7 +78,7 @@ describe('strong-error-handler', function() {
       request.get('/').expect(
         507,
         {error: {statusCode: 507, message: 'Insufficient Storage'}},
-        done
+        done,
       );
     });
   });
@@ -146,7 +146,7 @@ describe('strong-error-handler', function() {
     it('handles array argument', function(done) {
       givenErrorHandlerForError(
         [new TypeError('ERR1'), new Error('ERR2')],
-        {log: true}
+        {log: true},
       );
 
       request.get('/api').end(function(err) {
@@ -541,6 +541,32 @@ describe('strong-error-handler', function() {
       });
     });
 
+    it('honors rootProperty', function(done) {
+      givenErrorHandlerForError('Error Message', {rootProperty: 'data'});
+      requestJson().expect(500).end(function(err, res) {
+        if (err) return done(err);
+
+        expect(res.body.data).to.eql({
+          statusCode: 500,
+          message: 'Internal Server Error',
+        });
+        done();
+      });
+    });
+
+    it('honors rootProperty=false', function(done) {
+      givenErrorHandlerForError('Error Message', {rootProperty: false});
+      requestJson().expect(500).end(function(err, res) {
+        if (err) return done(err);
+
+        expect(res.body).to.eql({
+          statusCode: 500,
+          message: 'Internal Server Error',
+        });
+        done();
+      });
+    });
+
     function requestJson(url) {
       return request.get(url || '/')
         .set('Accept', 'text/plain')
@@ -581,10 +607,10 @@ describe('strong-error-handler', function() {
             expect(res.statusCode).to.eql(404);
             const body = res.error.text;
             expect(body).to.match(
-              /<title>Error&lt;img onerror=alert\(1\) src=a&gt;<\/title>/
+              /<title>Error&lt;img onerror=alert\(1\) src=a&gt;<\/title>/,
             );
             expect(body).to.match(
-              /with id &lt;img onerror=alert\(1\) src=a&gt; found for Model/
+              /with id &lt;img onerror=alert\(1\) src=a&gt; found for Model/,
             );
             done();
           });
@@ -602,7 +628,7 @@ describe('strong-error-handler', function() {
           .expect(/<title>ErrorWithProps<\/title>/)
           .expect(
             /500(.*?)a test error message&lt;img onerror=alert\(1\) src=a&gt;/,
-            done
+            done,
           );
       });
 
@@ -696,7 +722,7 @@ describe('strong-error-handler', function() {
           expect(body).to.not.match(/<extra>sensitive data<\/extra>/);
           expect(body).to.match(/<name>ValidationError<\/name>/);
           expect(body).to.match(
-            /<message>The model instance is not valid.<\/message>/
+            /<message>The model instance is not valid.<\/message>/,
           );
           done();
         });
@@ -724,6 +750,54 @@ describe('strong-error-handler', function() {
           // only have the following
           expect(body).to.match(/<statusCode>500<\/statusCode>/);
           expect(body).to.match(/<message>Internal Server Error<\/message>/);
+          done();
+        });
+    });
+
+    it('honors options.rootProperty', function(done) {
+      const error = new ErrorWithProps({
+        name: 'ValidationError',
+        message: 'The model instance is not valid.',
+        statusCode: 422,
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+      givenErrorHandlerForError(error, {rootProperty: 'myRoot'});
+      requestXML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(422);
+          const body = res.error.text;
+          expect(body).to.match(/<myRoot>/);
+          expect(body).to.match(/<details>some details<\/details>/);
+          expect(body).to.not.match(/<extra>sensitive data<\/extra>/);
+          expect(body).to.match(/<name>ValidationError<\/name>/);
+          expect(body).to.match(
+            /<message>The model instance is not valid.<\/message>/,
+          );
+          done();
+        });
+    });
+
+    it('ignores options.rootProperty = false', function(done) {
+      const error = new ErrorWithProps({
+        name: 'ValidationError',
+        message: 'The model instance is not valid.',
+        statusCode: 422,
+        details: 'some details',
+        extra: 'sensitive data',
+      });
+      givenErrorHandlerForError(error, {rootProperty: false});
+      requestXML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(422);
+          const body = res.error.text;
+          expect(body).to.match(/<error>/);
+          expect(body).to.match(/<details>some details<\/details>/);
+          expect(body).to.not.match(/<extra>sensitive data<\/extra>/);
+          expect(body).to.match(/<name>ValidationError<\/name>/);
+          expect(body).to.match(
+            /<message>The model instance is not valid.<\/message>/,
+          );
           done();
         });
     });

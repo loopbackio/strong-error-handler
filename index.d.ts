@@ -53,6 +53,7 @@ declare namespace errorHandlerFactory {
     safeFields?: string[];
     defaultType?: string;
     negotiateContentType?: boolean;
+    rootProperty?: string | false;
   }
 
   /**
