@@ -1,3 +1,11 @@
+2020-06-23, Version 3.5.0
+=========================
+
+ * feat: add options.rootProperty for json/xml (Raymond Feng)
+
+ * chore: update deps and drop Node 8.x support (Raymond Feng)
+
+
 2019-10-12, Version 3.4.0
 =========================
 
