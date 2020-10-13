@@ -1,3 +1,11 @@
+2020-10-13, Version 4.0.0
+=========================
+
+ * docs: update LTS versions in README (Miroslav Bajtoš)
+
+ * [SEMVER-MAJOR] Reword log messages for clarity (Miroslav Bajtoš)
+
+
 2020-06-23, Version 3.5.0
 =========================
 
