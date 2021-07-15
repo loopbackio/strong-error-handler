@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/strongloop/strong-error-handler.git"
+    "url": "https://github.com/loopbackio/strong-error-handler.git"
   },
   "main": "lib/handler.js",
   "scripts": {
