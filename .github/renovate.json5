@@ -1,0 +1,6 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'github>loopbackio/loopback-next//.github/renovate.json5'
+  ]
+}
