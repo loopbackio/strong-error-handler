@@ -1,6 +1,6 @@
-sudo: false
+arch:
+  - ppc64le
+  - s390x
+  - arm64
 language: node_js
-node_js:
-  - "10"
-  - "12"
-  - "14"
+node_js: [10, 12, 14, 16]
