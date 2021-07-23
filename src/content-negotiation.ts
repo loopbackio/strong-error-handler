@@ -3,15 +3,15 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-'use strict';
-const accepts = require('accepts');
-const debug = require('debug')('strong-error-handler:http-response');
-const sendJson = require('./send-json');
-const sendHtml = require('./send-html');
-const sendXml = require('./send-xml');
-const util = require('util');
+import accepts from 'accepts';
+import debugFactory from 'debug';
+import util from 'util';
+import {sendHtml} from './send-html';
+import {sendJson} from './send-json';
+import {sendXml} from './send-xml';
+import {ErrorWriterOptions} from './types';
 
-module.exports = negotiateContentProducer;
+const debug = debugFactory('strong-error-handler:http-response');
 
 /**
  * Handles req.accepts and req.query._format and options.defaultType
@@ -22,11 +22,18 @@ module.exports = negotiateContentProducer;
  * @param {Object} options options of strong-error-handler
  * @returns {Function} Operation function with signature `fn(res, data)`
  */
-function negotiateContentProducer(req, logWarning, options) {
+export function negotiateContentProducer(
+  req,
+  logWarning,
+  options: ErrorWriterOptions,
+) {
   const SUPPORTED_TYPES = [
-    'application/json', 'json',
-    'text/html', 'html',
-    'text/xml', 'xml',
+    'application/json',
+    'json',
+    'text/html',
+    'html',
+    'text/xml',
+    'xml',
   ];
 
   options = options || {};
@@ -38,8 +45,12 @@ function negotiateContentProducer(req, logWarning, options) {
       debug('Accepting options.defaultType `%s`', options.defaultType);
       defaultType = options.defaultType;
     } else {
-      debug('defaultType: `%s` is not supported, ' +
-        'falling back to defaultType: `%s`', options.defaultType, defaultType);
+      debug(
+        'defaultType: `%s` is not supported, ' +
+          'falling back to defaultType: `%s`',
+        options.defaultType,
+        defaultType,
+      );
     }
   }
 
@@ -58,13 +69,15 @@ function negotiateContentProducer(req, logWarning, options) {
 
   if (options.negotiateContentType === false) {
     if (SUPPORTED_TYPES.indexOf(options.defaultType) > -1) {
-      debug('Forcing options.defaultType `%s`',
-        options.defaultType);
+      debug('Forcing options.defaultType `%s`', options.defaultType);
       contentType = options.defaultType;
     } else {
-      debug('contentType: `%s` is not supported, ' +
-        'falling back to contentType: `%s`',
-      options.defaultType, contentType);
+      debug(
+        'contentType: `%s` is not supported, ' +
+          'falling back to contentType: `%s`',
+        options.defaultType,
+        contentType,
+      );
     }
   }
 
@@ -77,14 +90,20 @@ function negotiateContentProducer(req, logWarning, options) {
       contentType = query._format;
     } else {
       // format passed through query but not supported
-      const msg = util.format('Response _format "%s" is not supported' +
-        'used "%s" instead"', query._format, defaultType);
+      const msg = util.format(
+        'Response _format "%s" is not supported' + 'used "%s" instead"',
+        query._format,
+        defaultType,
+      );
       logWarning(msg);
     }
   }
 
-  debug('Content-negotiation: req.headers.accept: `%s` Resolved as: `%s`',
-    req.headers.accept, contentType);
+  debug(
+    'Content-negotiation: req.headers.accept: `%s` Resolved as: `%s`',
+    req.headers.accept,
+    contentType,
+  );
   return resolveOperation(contentType);
 }
 

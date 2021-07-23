@@ -3,10 +3,10 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-'use strict';
-const ejs = require('ejs');
-const fs = require('fs');
-const path = require('path');
+import ejs from 'ejs';
+import type Express from 'express';
+import fs from 'fs';
+import path from 'path';
 
 const assetDir = path.resolve(__dirname, '../views');
 const compiledTemplates = {
@@ -14,9 +14,11 @@ const compiledTemplates = {
   default: loadDefaultTemplates(),
 };
 
-module.exports = sendHtml;
-
-function sendHtml(res, data, options) {
+export function sendHtml(
+  res: Express.Response,
+  data: ejs.Data['data'],
+  options: ejs.Data['options'],
+) {
   const toRender = {options, data};
   // TODO: ability to call non-default template functions from options
   const body = compiledTemplates.default(toRender);
@@ -27,9 +29,9 @@ function sendHtml(res, data, options) {
  * Compile and cache the file with the `filename` key in options
  *
  * @param filepath (description)
- * @returns {Function} render function with signature fn(data);
+ * @returns Render function with signature fn(data);
  */
-function compileTemplate(filepath) {
+function compileTemplate(filepath: string): ejs.TemplateFunction {
   const options = {cache: true, filename: filepath};
   const fileContent = fs.readFileSync(filepath, 'utf8');
   return ejs.compile(fileContent, options);
@@ -41,7 +43,7 @@ function loadDefaultTemplates() {
   return compileTemplate(defaultTemplate);
 }
 
-function sendResponse(res, body) {
+function sendResponse(res: Express.Response, body: string) {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.end(body);
 }

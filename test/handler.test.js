@@ -3,8 +3,6 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-'use strict';
-
 const cloneAllProperties = require('../lib/clone.js');
 const debug = require('debug')('test');
 const expect = require('chai').expect;
@@ -177,7 +175,7 @@ describe('strong-error-handler', function() {
       });
     });
 
-    const _consoleError = console.error;
+    const consoleError = console.error;
     function redirectConsoleError() {
       logs = [];
       console.error = function() {
@@ -187,7 +185,7 @@ describe('strong-error-handler', function() {
     }
 
     function restoreConsoleError() {
-      console.error = _consoleError;
+      console.error = consoleError;
       logs = [];
     }
   });

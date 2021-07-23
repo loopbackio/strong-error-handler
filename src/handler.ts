@@ -3,18 +3,24 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-'use strict';
+import debugFactory from 'debug';
+import type Express from 'express';
+import {HttpError, isHttpError} from 'http-errors';
+import path from 'path';
+import SG from 'strong-globalize';
+import {negotiateContentProducer} from './content-negotiation';
+import {buildResponseData} from './data-builder';
+import {logToConsole} from './logger';
+import {
+  ErrorHandlerOptions,
+  ErrorWriterOptions,
+  StrongErrorHandler,
+} from './types';
 
-const path = require('path');
-const SG = require('strong-globalize');
 SG.SetRootDir(path.resolve(__dirname, '..'));
-const buildResponseData = require('./data-builder');
-const debug = require('debug')('strong-error-handler');
-const logToConsole = require('./logger');
-const negotiateContentProducer = require('./content-negotiation');
+const debug = debugFactory('strong-error-handler');
 
-function noop() {
-}
+function noop() {}
 
 /**
  * Create a middleware error handler function.
@@ -22,15 +28,20 @@ function noop() {
  * @param {Object} options
  * @returns {Function}
  */
-function createStrongErrorHandler(options) {
-  options = options || {};
-
+export function createStrongErrorHandler(
+  options: ErrorHandlerOptions = {},
+): StrongErrorHandler {
   debug('Initializing with options %j', options);
 
   // Log all errors via console.error (enabled by default)
   const logError = options.log !== false ? logToConsole : noop;
 
-  return function strongErrorHandler(err, req, res, next) {
+  return function strongErrorHandler(
+    err: Error,
+    req: Express.Request,
+    res: Express.Response,
+    next: (err: unknown) => void,
+  ) {
     logError(req, err);
     writeErrorToResponse(err, req, res, options);
   };
@@ -39,15 +50,18 @@ function createStrongErrorHandler(options) {
 /**
  * Writes thrown error to response
  *
- * @param {Error} err
- * @param {Express.Request} req
- * @param {Express.Response} res
- * @param {Object} options
+ * @param err
+ * @param req
+ * @param res
+ * @param options
  */
-function writeErrorToResponse(err, req, res, options) {
+function writeErrorToResponse(
+  err: Error | HttpError,
+  req: Express.Request,
+  res: Express.Response,
+  options: ErrorWriterOptions = {},
+) {
   debug('Handling %s', err.stack || err);
-
-  options = options || {};
 
   if (res.headersSent) {
     debug('Response was already sent, closing the underlying connection');
@@ -55,8 +69,8 @@ function writeErrorToResponse(err, req, res, options) {
   }
 
   // this will alter the err object, to handle when res.statusCode is an error
-  if (!err.status && !err.statusCode && res.statusCode >= 400)
-    err.statusCode = res.statusCode;
+  if (!isHttpError(err) && res.statusCode >= 400)
+    (err as Partial<HttpError> & Error).statusCode = res.statusCode;
 
   const data = buildResponseData(err, options);
   debug('Response status %s data %j', data.statusCode, data);
@@ -67,11 +81,11 @@ function writeErrorToResponse(err, req, res, options) {
   const sendResponse = negotiateContentProducer(req, warn, options);
   sendResponse(res, data, options);
 
-  function warn(msg) {
+  function warn(msg: string) {
     res.header('X-Warning', msg);
     debug(msg);
   }
 }
 
-exports = module.exports = createStrongErrorHandler;
-exports.writeErrorToResponse = writeErrorToResponse;
+module.exports = createStrongErrorHandler;
+module.exports.writeErrorToResponse = writeErrorToResponse;

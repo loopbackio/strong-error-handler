@@ -3,14 +3,11 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-'use strict';
+import httpStatus from 'http-status';
+import {cloneAllProperties} from './clone';
+import {ErrorWriterOptions} from './types';
 
-const cloneAllProperties = require('../lib/clone.js');
-const httpStatus = require('http-status');
-
-module.exports = buildResponseData;
-
-function buildResponseData(err, options) {
+export function buildResponseData(err: Error, options: ErrorWriterOptions) {
   // Debugging mode is disabled by default. When turned on (in dev),
   // all error properties (including) stack traces are sent in the response
   const isDebugMode = options.debug;
@@ -50,16 +47,15 @@ function serializeArrayOfErrors(errors, options) {
   const details = errors.map(e => buildResponseData(e, options));
   return {
     statusCode: 500,
-    message: 'Failed with multiple errors, ' +
-      'see `details` for more information.',
+    message:
+      'Failed with multiple errors, ' + 'see `details` for more information.',
     details: details,
   };
 }
 
 function fillStatusCode(data, err) {
   data.statusCode = err.statusCode || err.status;
-  if (!data.statusCode || data.statusCode < 400)
-    data.statusCode = 500;
+  if (!data.statusCode || data.statusCode < 400) data.statusCode = 500;
 }
 
 function fillDebugData(data, err) {
@@ -82,7 +78,7 @@ function fillSafeFields(data, err, safeFields) {
     safeFields = [safeFields];
   }
 
-  safeFields.forEach(function(field) {
+  safeFields.forEach(function (field) {
     if (err[field] !== undefined) {
       data[field] = err[field];
     }
