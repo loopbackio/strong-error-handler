@@ -21,7 +21,7 @@
     "debug": "^4.3.4",
     "ejs": "^3.1.6",
     "fast-safe-stringify": "^2.1.1",
-    "http-status": "^1.5.0",
+    "http-status": "^1.5.1",
     "js2xmlparser": "^4.0.2",
     "strong-globalize": "^6.0.5"
   },
