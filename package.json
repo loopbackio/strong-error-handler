@@ -33,7 +33,7 @@
     "eslint-config-loopback": "^13.1.0",
     "express": "^4.18.1",
     "mocha": "^9.2.2",
-    "supertest": "^6.2.4"
+    "supertest": "^6.3.0"
   },
   "browser": {
     "strong-error-handler": false
