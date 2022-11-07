@@ -1,3 +1,93 @@
+2022-11-07, Version 4.0.1
+=========================
+
+ * chore: update dependency mocha to v10 (renovate[bot])
+
+ * chore: update dependency chai to ^4.3.7 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^8.27.0 (renovate[bot])
+
+ * chore: update dependency eslint to v8 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^17.2.0 (renovate[bot])
+
+ * chore: update dependency supertest to ^6.3.1 (renovate[bot])
+
+ * chore: update dependency express to ^4.18.2 (renovate[bot])
+
+ * chore: update dependency supertest to ^6.3.0 (renovate[bot])
+
+ * chore: update dependency @types/express to ^4.17.14 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to v17 (renovate[bot])
+
+ * chore: update dependency http-status to ^1.5.3 (renovate[bot])
+
+ * chore: update dependency supertest to ^6.2.4 (renovate[bot])
+
+ * chore: lock file maintenance (Renovate Bot)
+
+ * chore: update dependency ejs to ^3.1.8 (Renovate Bot)
+
+ * chore: update dependency http-status to ^1.5.2 (Renovate Bot)
+
+ * chore: update dependency supertest to ^6.2.3 (Renovate Bot)
+
+ * chore: update dependency @commitlint/config-conventional to ^16.2.4 (Renovate Bot)
+
+ * chore: update github/codeql-action action to v2 (Renovate Bot)
+
+ * chore: update dependency express to ^4.18.1 (Renovate Bot)
+
+ * chore: update dependency ejs to ^3.1.7 (Renovate Bot)
+
+ * chore: update dependency http-status to ^1.5.1 (Renovate Bot)
+
+ * chore: update dependency @commitlint/config-conventional to v16 (Renovate Bot)
+
+ * chore: update actions/setup-node action to v3 (Renovate Bot)
+
+ * chore: update actions/checkout action to v3 (Renovate Bot)
+
+ * chore: update dependency supertest to ^6.2.2 (Renovate Bot)
+
+ * chore: update dependency mocha to ^9.2.2 (Renovate Bot)
+
+ * chore: update dependency fast-safe-stringify to ^2.1.1 (Renovate Bot)
+
+ * chore: update dependency eslint to ^7.32.0 (Renovate Bot)
+
+ * chore: update dependency js2xmlparser to ^4.0.2 (Renovate Bot)
+
+ * chore: update dependency ejs to ^3.1.6 (Renovate Bot)
+
+ * chore: update dependency strong-globalize to ^6.0.5 (Renovate Bot)
+
+ * chore: update dependency http-status to ^1.5.0 (Renovate Bot)
+
+ * chore: update dependency express to ^4.17.3 (Renovate Bot)
+
+ * chore: update dependency debug to ^4.3.4 (Renovate Bot)
+
+ * chore: update dependency accepts to ^1.3.8 (Renovate Bot)
+
+ * chore: update dependency chai to ^4.3.6 (Renovate Bot)
+
+ * ci: add renovate config (Rifa Achrinza)
+
+ * docs: add SECURITY.md (Diana Lau)
+
+ * docs: update coc (Diana Lau)
+
+ * docs: add code of conduct (Diana Lau)
+
+ * feat: update CI pipeline (Rifa Achrinza)
+
+ * chore: move repo to loopbackio org (Diana Lau)
+
+
 2020-10-13, Version 4.0.0
 =========================
 
