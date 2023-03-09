@@ -1,3 +1,37 @@
+2023-03-09, Version 4.0.2
+=========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^8.35.0 (renovate[bot])
+
+ * chore: update dependency http-status to ^1.6.2 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.34.0 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^17.4.4 (renovate[bot])
+
+ * chore: update dependency @types/express to ^4.17.17 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.31.0 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.30.0 (renovate[bot])
+
+ * chore: update dependency @types/express to ^4.17.15 (renovate[bot])
+
+ * chore: update dependency mocha to ^10.2.0 (renovate[bot])
+
+ * chore: update dependency supertest to ^6.3.3 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.29.0 (renovate[bot])
+
+ * chore: update dependency supertest to ^6.3.2 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^17.3.0 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.28.0 (renovate[bot])
+
+
 2022-11-07, Version 4.0.1
 =========================
 
