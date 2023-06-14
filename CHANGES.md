@@ -1,3 +1,13 @@
+2023-06-14, Version 4.0.6
+=========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * fix: remove grafana from package (dhmlau)
+
+ * chore: update dependency eslint to ^8.42.0 (renovate[bot])
+
+
 2023-06-02, Version 4.0.5
 =========================
 
