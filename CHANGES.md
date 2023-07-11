@@ -1,4 +1,16 @@
-2023-06-14, Version 4.0.6
+2023-07-11, Version 4.0.7
+=========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^8.44.0 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^17.6.6 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.43.0 (renovate[bot])
+
+
+2023-06-13, Version 4.0.6
 =========================
 
  * chore: lock file maintenance (renovate[bot])
