@@ -1,3 +1,15 @@
+2023-08-21, Version 5.0.0
+=========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency strong-globalize to ^6.0.6 (renovate[bot])
+
+ * chore: update dependency js2xmlparser to v5 (renovate[bot])
+
+ * chore: drop Node.js 14 and lower (dhmlau)
+
+
 2023-08-14, Version 4.0.8
 =========================
 
