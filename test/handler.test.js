@@ -607,10 +607,12 @@ describe('strong-error-handler', function() {
             expect(res.statusCode).to.eql(404);
             const body = res.error.text;
             expect(body).to.match(
-              /<title>Error&lt;img onerror=alert\(1\) src=a&gt;<\/title>/,
+              // eslint-disable-next-line max-len
+              /<title>Error&lt;img onerror&#x3D;alert\(1\) src&#x3D;a&gt;<\/title>/,
             );
             expect(body).to.match(
-              /with id &lt;img onerror=alert\(1\) src=a&gt; found for Model/,
+              // eslint-disable-next-line max-len
+              /with id &lt;img onerror&#x3D;alert\(1\) src&#x3D;a&gt; found for Model/,
             );
             done();
           });
@@ -627,7 +629,8 @@ describe('strong-error-handler', function() {
           .expect(500)
           .expect(/<title>ErrorWithProps<\/title>/)
           .expect(
-            /500(.*?)a test error message&lt;img onerror=alert\(1\) src=a&gt;/,
+            // eslint-disable-next-line max-len
+            /500(.*?)a test error message&lt;img onerror&#x3D;alert\(1\) src&#x3D;a&gt;/,
             done,
           );
       });
