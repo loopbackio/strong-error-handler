@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ data.name }}{{#unless data.name}}{{ data.message }}{{/unless}}</title>
+    <style>
+      {{partial 'style'}}
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <h1>{{ data.name }}</h1>
+      <h2>
+        <em>{{ data.statusCode }}</em> {{ data.message }}
+      </h2>
+      {{#each data}}
+        {{#standardProps @key}}
+          <div><b>{{@key}}</b>: {{this}}</div>
+        {{/standardProps}}
+      {{/each}}
+      {{#if data.stack}}
+        <pre id="stacktrace">{{{data.stack}}}</pre>
+      {{/if}}
+    </div>
+  </body>
+</html>
