@@ -1,3 +1,19 @@
+2023-09-11, Version 5.0.1
+=========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^8.49.0 (renovate[bot])
+
+ * chore: update dependency http-status to ^1.7.0 (renovate[bot])
+
+ * chore: update actions/checkout action to v4 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.48.0 (renovate[bot])
+
+ * chore: update dependency chai to ^4.3.8 (renovate[bot])
+
+
 2023-08-21, Version 5.0.0
 =========================
 
