@@ -1,3 +1,25 @@
+2023-10-16, Version 5.0.2
+=========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^17.8.0 (renovate[bot])
+
+ * chore: update dependency @types/express to ^4.17.19 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.51.0 (renovate[bot])
+
+ * chore: update dependency chai to ^4.3.10 (renovate[bot])
+
+ * chore: update dependency chai to ^4.3.9 (renovate[bot])
+
+ * chore: update actions/checkout digest to 8ade135 (renovate[bot])
+
+ * chore: update dependency @types/express to ^4.17.18 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.50.0 (renovate[bot])
+
+
 2023-09-11, Version 5.0.1
 =========================
 
