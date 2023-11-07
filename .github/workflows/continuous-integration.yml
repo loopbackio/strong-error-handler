@@ -9,34 +9,49 @@ on:
   schedule:
     - cron: '0 2 * * 1' # At 02:00 on Monday
 
-env:
-  NODE_OPTIONS: --max-old-space-size=4096
+permissions: {}
 
 jobs:
   test:
     name: Test
-    timeout-minutes: 15
+    timeout-minutes: 5
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [16, 18]
+        node-version:
+          - 16
+          - 18
+          - 20
+          - 21
         include:
           - os: macos-latest
-            node-version: 16 # LTS
+            node-version: 20 # LTS
+          - os: windows-latest
+            node-version: 20 # LTS
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
-          fetch-depth: 0
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            nodejs.org:443
+            registry.npmjs.org:443
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
       - name: Bootstrap project
-        run: |
-          npm ci --ignore-scripts
-      - uses: Yuri6037/Action-FakeTTY@v1.1
+        run: npm ci --ignore-scripts --prefer-offline
+      - uses: Yuri6037/Action-FakeTTY@1abc69c7d530815855caedcd73842bae5687c1a6 # v1.1
       - name: Run tests
         run: faketty npm test --ignore-scripts
 
@@ -44,31 +59,102 @@ jobs:
     name: Code Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
-      - name: Use Node.js 16
-        uses: actions/setup-node@v3
+      - uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
         with:
-          node-version: 16
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            nodejs.org:443
+            registry.npmjs.org:443
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+      - name: Use Node.js 20
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
+        with:
+          node-version: 20
+          cache: 'npm'
       - name: Bootstrap project
         run: |
-          npm ci --ignore-scripts
+          npm ci \
+            --ignore-scripts \
+            --prefer-offline
       - name: Verify code linting
-        run: npm run lint
+        run: npm run lint --ignore-scripts
 
   commit-lint:
     name: Commit Lint
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request }}
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+      - uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            registry.npmjs.org:443
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: 0
-      - name: Use Node.js 16
-        uses: actions/setup-node@v3
+          persist-credentials: false
+      - name: Use Node.js 20
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
-          node-version: 16
+          node-version: 20
+          cache: npm
       - name: Bootstrap project
         run: |
-          npm ci --ignore-scripts
+          npm ci \
+            --ignore-scripts \
+            --prefer-offline
       - name: Verify commit linting
-        run: npx commitlint --from origin/master --to HEAD --verbose
+        run: |
+          npm exec \
+            --no-install \
+            --package=@commitlint/cli \
+            -- \
+            commitlint \
+              --from=origin/master \
+              --to=HEAD \
+              --verbose
+
+  lockfile-lint:
+    name: Lockfile Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@1b05615854632b887b69ae1be8cbefe72d3ae423 # v2.6.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            registry.npmjs.org:443
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+      - name: Use Node.js 20
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
+        with:
+          node-version: 20
+          cache: npm
+      - name: Bootstrap project
+        run: |
+          npm ci \
+            --ignore-scripts \
+            --prefer-offline
+      - name: Verify commit linting
+        run: |
+          npm exec \
+            --no-install \
+            --package=lockfile-lint \
+            -- \
+            lockfile-lint \
+              --path=package-lock.json \
+              --allowed-hosts=npm \
+              --validate-https \
+              --validate-integrity \
+              --validate-package-names
+
