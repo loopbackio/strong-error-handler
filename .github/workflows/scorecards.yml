@@ -16,8 +16,6 @@ on:
     - cron: '30 6 * * 5'
   push:
     branches: [master]
-  # Added for testing the workflow, as PR triggers are currently not supported by the OSSF Scorecard Action.
-  workflow_dispatch: {}
 
 # Declare default permissions as read only.
 # permissions: read-all
@@ -38,7 +36,17 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
           disable-sudo: true
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            api.osv.dev:443
+            api.securityscorecards.dev:443
+            fulcio.sigstore.dev:443
+            github.com:443
+            oss-fuzz-build-logs.storage.googleapis.com:443
+            rekor.sigstore.dev:443
+            tuf-repo-cdn.sigstore.dev:443
+            www.bestpractices.dev:443
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           persist-credentials: false
