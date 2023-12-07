@@ -1,3 +1,55 @@
+2023-12-07, Version 5.0.5
+=========================
+
+ * chore: update github/codeql-action action to v2.22.9 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.6.1 (renovate[bot])
+
+ * chore: add badges (Rifa Achrinza)
+
+ * ci: further harden workflows (Rifa Achrinza)
+
+ * ci: fix Scorecard issues (Rifa Achrinza)
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^8.55.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v2.22.8 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^18.4.3 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.54.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^18.4.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v2.22.7 (renovate[bot])
+
+ * chore: update github/codeql-action action to v2.22.6 (renovate[bot])
+
+ * chore: update commitlint monorepo (renovate[bot])
+
+ * fix(cve-2023-29827): replace EJS with Handlebars to resolve security warning (KalleV)
+
+ * ci: align CI configuration (Rifa Achrinza)
+
+ * chore: update dependency @types/express to ^4.17.21 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.53.0 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^18.1.0 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to v18 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.52.0 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^17.8.1 (renovate[bot])
+
+ * chore: update dependency @types/express to ^4.17.20 (renovate[bot])
+
+ * chore: update dependency http-status to ^1.7.3 (renovate[bot])
+
+
 2023-10-16, Version 5.0.2
 =========================
 
