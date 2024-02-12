@@ -1,5 +1,45 @@
-2023-12-07, Version 5.0.5 
+2024-02-12, Version 5.0.7
 =========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency lockfile-lint to ^4.13.1 (renovate[bot])
+
+ * chore: update dependency lockfile-lint to ^4.13.0 (renovate[bot])
+
+ * chore: update dependency mocha to ^10.3.0 (renovate[bot])
+
+ * chore: update actions/setup-node action to v4.0.2 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.7.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.24.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.23.2 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^18.6.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.23.1 (renovate[bot])
+
+ * chore: update dependency supertest to ^6.3.4 (renovate[bot])
+
+ * chore: update dependency chai to ^4.4.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3 (renovate[bot])
+
+ * chore: update github/codeql-action action to v2.23.0 (renovate[bot])
+
+ * chore: update dependency chai to ^4.4.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^18.4.4 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.56.0 (renovate[bot])
+
+ * chore: update actions/setup-node action to v4.0.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v2.22.12 (renovate[bot])
+
+ * chore: update github/codeql-action action to v2.22.10 (renovate[bot])
 
  * chore: update github/codeql-action action to v2.22.9 (renovate[bot])
 
@@ -10,8 +50,6 @@
  * ci: further harden workflows (Rifa Achrinza)
 
  * ci: fix Scorecard issues (Rifa Achrinza)
-
- * chore: lock file maintenance (renovate[bot])
 
  * chore: update dependency eslint to ^8.55.0 (renovate[bot])
 
