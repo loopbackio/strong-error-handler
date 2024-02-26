@@ -5,13 +5,15 @@
 
 'use strict';
 
-const cloneAllProperties = require('../lib/clone.js');
-const debug = require('debug')('test');
-const expect = require('chai').expect;
-const express = require('express');
-const strongErrorHandler = require('..');
-const supertest = require('supertest');
-const util = require('util');
+import cloneAllProperties from '../lib/clone.js';
+import debugFactory from 'debug';
+import express from 'express';
+import strongErrorHandler from '../lib/handler.js';
+import supertest from 'supertest';
+import util from 'node:util';
+import {expect} from 'chai';
+
+const debug = debugFactory('test');
 
 describe('strong-error-handler', function() {
   before(setupHttpServerAndClient);
@@ -137,8 +139,7 @@ describe('strong-error-handler', function() {
         // the error name & message
         expect(msg).to.contain('TypeError: ERROR-NAME');
         // the stack
-        expect(msg).to.contain(__filename);
-
+        expect(msg).to.contain(import.meta.url);
         done();
       });
     });
@@ -161,7 +162,7 @@ describe('strong-error-handler', function() {
         expect(msg).to.contain('TypeError: ERR1');
         expect(msg).to.contain('Error: ERR2');
         // verify that stacks are included too
-        expect(msg).to.contain(__filename);
+        expect(msg).to.contain(import.meta.url);
 
         done();
       });
