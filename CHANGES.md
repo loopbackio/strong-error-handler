@@ -1,3 +1,47 @@
+2024-03-07, Version 5.0.8
+=========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency express to ^4.18.3 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.24.6 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^19.0.3 (renovate[bot])
+
+ * chore: update dependency @commitlint/cli to ^19.0.2 (renovate[bot])
+
+ * chore: update dependency @commitlint/cli to ^19.0.1 (renovate[bot])
+
+ * chore: update commitlint monorepo to v19 (renovate[bot])
+
+ * test: convert to ES Module (Rifa Achrinza)
+
+ * chore: update dependency chai to v5 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.57.0 (renovate[bot])
+
+ * ci: update CodeQL domain allowlist (Rifa Achrinza)
+
+ * chore: update actions/upload-artifact action to v4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.24.5 (renovate[bot])
+
+ * chore: update dependency http-status to ^1.7.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.24.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.24.3 (renovate[bot])
+
+ * chore: update dependency @commitlint/config-conventional to ^18.6.2 (renovate[bot])
+
+ * chore: update dependency lockfile-lint to ^4.13.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.24.1 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^18.6.1 (renovate[bot])
+
+
 2024-02-12, Version 5.0.7
 =========================
 
