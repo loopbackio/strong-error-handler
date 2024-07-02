@@ -34,7 +34,7 @@
     "eslint-config-loopback": "^13.1.0",
     "express": "^4.19.2",
     "lockfile-lint": "^4.14.0",
-    "mocha": "^10.5.2",
+    "mocha": "^10.6.0",
     "supertest": "^7.0.0"
   },
   "browser": {
