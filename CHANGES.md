@@ -1,3 +1,47 @@
+2024-10-10, Version 5.0.12
+==========================
+
+ * chore: update actions/upload-artifact action to v4.4.3 (renovate[bot])
+
+ * chore: update dependency express to ^4.21.1 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v4.4.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.26.12 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v4.4.1 (renovate[bot])
+
+ * chore: update actions/checkout action to v4.2.1 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.26.11 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.26.10 (renovate[bot])
+
+ * chore: update actions/checkout action to v4.2.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.26.9 (renovate[bot])
+
+ * chore: update actions/setup-node action to v4.0.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.26.8 (renovate[bot])
+
+ * chore: update dependency eslint to ^8.57.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.26.7 (renovate[bot])
+
+ * chore: update dependency express to ^4.21.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^19.5.0 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.10.1 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.10.0 (renovate[bot])
+
+ * chore: update dependency express to ^4.20.0 (renovate[bot])
+
+
 2024-09-09, Version 5.0.11
 ==========================
 
