@@ -683,6 +683,27 @@ describe('strong-error-handler', function() {
         });
     });
 
+    it('hides undefined properties from the HTML response', function(done) {
+      const error = new ErrorWithProps({
+        message: 'A test error message',
+        details: undefined,
+        code: undefined,
+      });
+      error.statusCode = 400;
+      givenErrorHandlerForError(error);
+      requestHTML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(400);
+
+          const body = res.error.text;
+
+          expect(body).to.match(/400(.*?)A test error message/);
+          expect(body).not.to.match(/details/);
+          expect(body).not.to.match(/code/);
+          done();
+        });
+    });
+
     function requestHTML(url) {
       return request.get(url || '/')
         .set('Accept', 'text/html')
