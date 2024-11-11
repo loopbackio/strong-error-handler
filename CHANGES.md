@@ -1,3 +1,29 @@
+2024-11-11, Version 5.0.13
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.27.1 (renovate[bot])
+
+ * chore: update dependency mocha to ^10.8.2 (renovate[bot])
+
+ * chore: update dependency mocha to ^10.8.1 (renovate[bot])
+
+ * chore: update actions/setup-node action to v4.1.0 (renovate[bot])
+
+ * chore: update actions/checkout action to v4.2.2 (renovate[bot])
+
+ * fix(html): avoid rendering [Object object] for undefined values (KalleV)
+
+ * chore: update dependency chai to ^5.1.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.27.0 (renovate[bot])
+
+ * chore: update dependency http-status to ^1.8.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.26.13 (renovate[bot])
+
+
 2024-10-10, Version 5.0.12
 ==========================
 
