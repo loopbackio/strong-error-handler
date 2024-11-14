@@ -3,8 +3,6 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-'use strict';
-
 import cloneAllProperties from '../lib/clone.js';
 import debugFactory from 'debug';
 import express from 'express';
