@@ -36,7 +36,7 @@
     "eslint-plugin-mocha": "^10.5.0",
     "express": "^4.21.2",
     "lockfile-lint": "^4.14.0",
-    "mocha": "^10.8.2",
+    "mocha": "^11.1.0",
     "supertest": "^7.0.0"
   },
   "browser": {
