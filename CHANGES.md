@@ -1,3 +1,35 @@
+2025-03-17, Version 5.0.17
+==========================
+
+ * chore: update dependency mocha to v11 (renovate[bot])
+
+ * chore: update actions/setup-node action to v4.3.0 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^9.22.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^19.8.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.11 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.21.0 (renovate[bot])
+
+ * chore: update dependency @eslint/eslintrc to ^3.3.0 (renovate[bot])
+
+ * chore: update ossf/scorecard-action action to v2.4.1 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v4.6.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.10 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.11.0 (renovate[bot])
+
+ * chore: update dependency chai to ^5.2.0 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.20.1 (renovate[bot])
+
+
 2025-02-10, Version 5.0.16
 ==========================
 
