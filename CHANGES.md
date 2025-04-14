@@ -1,3 +1,57 @@
+2025-04-14, Version 5.0.18
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update actions/setup-node action to v4.4.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.15 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.14 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.24.0 (renovate[bot])
+
+ * chore: update dependency express to v5 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.11.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.13 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.23.0 (renovate[bot])
+
+ * chore: update dependency @eslint/eslintrc to ^3.3.1 (renovate[bot])
+
+ * chore: update dependency supertest to ^7.1.0 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v4.6.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.12 (renovate[bot])
+
+ * chore: update actions/setup-node action to v4.3.0 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.22.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^19.8.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.11 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.21.0 (renovate[bot])
+
+ * chore: update dependency @eslint/eslintrc to ^3.3.0 (renovate[bot])
+
+ * chore: update ossf/scorecard-action action to v2.4.1 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v4.6.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.10 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.11.0 (renovate[bot])
+
+ * chore: update dependency chai to ^5.2.0 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.20.1 (renovate[bot])
+
+
 2025-02-10, Version 5.0.16
 ==========================
 
