@@ -1,3 +1,25 @@
+2025-05-12, Version 5.0.19
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update commitlint monorepo to ^19.8.1 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.26.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.17 (renovate[bot])
+
+ * chore: update dependency lockfile-lint to ^4.14.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.16 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.12.0 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.25.1 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.25.0 (renovate[bot])
+
+
 2025-04-14, Version 5.0.18
 ==========================
 
