@@ -1,3 +1,27 @@
+2025-06-09, Version 5.0.20
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency @types/express to ^5.0.3 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.19 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.28.0 (renovate[bot])
+
+ * chore: update ossf/scorecard-action action to v2.4.2 (renovate[bot])
+
+ * chore: update dependency @types/express to ^5.0.2 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.27.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.28.18 (renovate[bot])
+
+ * chore: update dependency debug to ^4.4.1 (renovate[bot])
+
+ * chore: update dependency supertest to ^7.1.1 (renovate[bot])
+
+
 2025-05-12, Version 5.0.19
 ==========================
 
