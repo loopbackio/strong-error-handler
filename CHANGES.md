@@ -1,3 +1,29 @@
+2025-07-14, Version 5.0.21
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^9.31.0 (renovate[bot])
+
+ * chore: update dependency chai to ^5.2.1 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.30.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.2 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.12.2 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.30.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.1 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.29.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.0 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.12.1 (renovate[bot])
+
+
 2025-06-09, Version 5.0.20
 ==========================
 
