@@ -1,3 +1,25 @@
+2025-08-11, Version 5.0.22
+==========================
+
+ * chore: update github/codeql-action action to v3.29.8 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.33.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.5 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^9.32.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.4 (renovate[bot])
+
+ * chore: update dependency supertest to ^7.1.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.3 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.13.0 (renovate[bot])
+
+
 2025-07-14, Version 5.0.21
 ==========================
 
