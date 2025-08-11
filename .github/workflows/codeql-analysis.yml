@@ -39,6 +39,16 @@ jobs:
       with:
         languages: javascript-typescript
         config-file: .github/codeql/codeql-config.yml
+    - name: StepSecurity - reapply egress restrictions
+      uses: step-security/harden-runner@v2.13.0
+      with:
+        disable-sudo: true
+        egress-policy: block
+        allowed-endpoints: >
+          api.github.com:443
+          github.com:443
+          objects.githubusercontent.com:443
+          github-releases.githubusercontent.com:443
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@76621b61decf072c1cee8dd1ce2d2a82d33c17ed # v3.29.8
