@@ -13,6 +13,7 @@
   "main": "lib/handler.js",
   "scripts": {
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "mocha",
     "posttest": "npm run lint"
   },

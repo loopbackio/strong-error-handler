@@ -392,6 +392,33 @@ describe('strong-error-handler', function() {
       });
     });
 
+    it('honours expose=true when status=5xx', function(done) {
+      // Mock an error reported by fs.readFile
+      const error = new ErrorWithProps({
+        name: 'Error',
+        message: 'ENOENT: no such file or directory, open "/etc/passwd"',
+        errno: -2,
+        code: 'ENOENT',
+        expose: true,
+        syscall: 'open',
+        path: '/etc/password',
+      });
+      givenErrorHandlerForError(error);
+
+      requestJson().end(function(err, res) {
+        if (err) return done(err);
+
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.eql({
+          statusCode: 500,
+          name: 'Internal Server Error',
+          message: 'ENOENT: no such file or directory, open "/etc/passwd"',
+        });
+
+        done();
+      });
+    });
+
     it('handles array argument as 500 when debug=false', function(done) {
       const errors = [new Error('ERR1'), new Error('ERR2'), 'ERR STRING'];
       givenErrorHandlerForError(errors);
@@ -702,6 +729,29 @@ describe('strong-error-handler', function() {
         });
     });
 
+    it('honours expose=true when status=5xx', function(done) {
+      const error = new ErrorWithProps({
+        name: 'Error',
+        message: 'Server out of disk space',
+        details: 'some details',
+        extra: 'sensitive data',
+        expose: true,
+      });
+      givenErrorHandlerForError(error);
+
+      requestHTML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(500);
+          const body = res.error.text;
+          expect(body).to.not.match(/some details/);
+          expect(body).to.not.match(/sensitive data/);
+          // only have the following
+          expect(body).to.match(/<title>Internal Server Error<\/title>/);
+          expect(body).to.match(/500(.*?)Server out of disk space/);
+          done();
+        });
+    });
+
     function requestHTML(url) {
       return request.get(url || '/')
         .set('Accept', 'text/html')
@@ -773,6 +823,30 @@ describe('strong-error-handler', function() {
           // only have the following
           expect(body).to.match(/<statusCode>500<\/statusCode>/);
           expect(body).to.match(/<message>Internal Server Error<\/message>/);
+          done();
+        });
+    });
+
+    it('honours expose=true when status=5xx', function(done) {
+      const error = new ErrorWithProps({
+        name: 'Error',
+        message: 'Server out of disk space',
+        details: 'some details',
+        extra: 'sensitive data',
+        expose: true,
+      });
+      givenErrorHandlerForError(error);
+
+      requestXML()
+        .end(function(err, res) {
+          expect(res.statusCode).to.eql(500);
+          const body = res.error.text;
+          expect(body).to.not.match(/some details/);
+          expect(body).to.not.match(/sensitive data/);
+          // only have the following
+          expect(body).to.match(/<statusCode>500<\/statusCode>/);
+          expect(body).to.match(/<name>Internal Server Error<\/name>/);
+          expect(body).to.match(/<message>Server out of disk space<\/message>/);
           done();
         });
     });
