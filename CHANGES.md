@@ -1,3 +1,41 @@
+2025-09-08, Version 5.0.23
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency eslint to ^9.35.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.1 (renovate[bot])
+
+ * chore: update actions/setup-node action to v5 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.0 (renovate[bot])
+
+ * chore: update dependency chai to v6 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.34.0 (renovate[bot])
+
+ * chore: update dependency chai to ^5.3.3 (renovate[bot])
+
+ * chore: update dependency chai to ^5.3.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.11 (renovate[bot])
+
+ * chore: update actions/checkout action to v5 (renovate[bot])
+
+ * feat: honor "expose" property of http-errors (dhmlau)
+
+ * fix: fix codeql (dhmlau)
+
+ * chore: update actions/checkout action to v4.3.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.10 (renovate[bot])
+
+ * chore: update dependency chai to ^5.3.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.29.9 (renovate[bot])
+
+
 2025-08-11, Version 5.0.22
 ==========================
 
