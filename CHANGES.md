@@ -1,3 +1,43 @@
+2025-10-14, Version 5.0.24
+==========================
+
+ * chore: update actions/setup-node action to v6 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.8 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.7 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.37.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.6 (renovate[bot])
+
+ * chore: update ossf/scorecard-action action to v2.4.3 (renovate[bot])
+
+ * chore: update dependency @commitlint/cli to ^20.1.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to v20 (renovate[bot])
+
+ * chore: update dependency chai to ^6.2.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.5 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.4 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.36.0 (renovate[bot])
+
+ * chore: update dependency debug to ^4.4.3 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.3 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.13.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v3.30.2 (renovate[bot])
+
+
 2025-09-08, Version 5.0.23
 ==========================
 
