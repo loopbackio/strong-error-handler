@@ -32,7 +32,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@types/express": "^5.0.5",
     "chai": "^6.2.0",
-    "eslint": "^9.38.0",
+    "eslint": "^9.39.0",
     "eslint-config-loopback": "^13.1.0",
     "eslint-plugin-mocha": "^10.5.0",
     "express": "^5.1.0",
