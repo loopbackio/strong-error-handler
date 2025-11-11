@@ -1,3 +1,29 @@
+2025-11-11, Version 5.0.25
+==========================
+
+ * chore: update actions/upload-artifact action to v5 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.13.2 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.39.1 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.39.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.31.2 (renovate[bot])
+
+ * chore: update dependency @types/express to ^5.0.5 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.31.0 (renovate[bot])
+
+ * chore: update dependency @types/express to ^5.0.4 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.38.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.30.9 (renovate[bot])
+
+
 2025-10-14, Version 5.0.24
 ==========================
 
