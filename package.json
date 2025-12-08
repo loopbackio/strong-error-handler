@@ -2,7 +2,7 @@
   "name": "strong-error-handler",
   "description": "Error handler for use in development and production environments.",
   "license": "MIT",
-  "version": "5.0.25",
+  "version": "5.0.26",
   "engines": {
     "node": ">=16"
   },
