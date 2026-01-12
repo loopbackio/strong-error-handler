@@ -1,3 +1,27 @@
+2026-01-12, Version 5.0.27
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update commitlint monorepo to ^20.3.1 (renovate[bot])
+
+ * chore: update dependency supertest to ^7.2.2 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^20.3.0 (renovate[bot])
+
+ * chore: update dependency chai to ^6.2.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.31.9 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v6 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.39.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.31.8 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.14.0 (renovate[bot])
+
+
 2025-12-08, Version 5.0.26
 ==========================
 
