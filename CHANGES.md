@@ -1,3 +1,25 @@
+2026-02-09, Version 5.0.28
+==========================
+
+ * chore: update github/codeql-action action to v4.32.2 (renovate[bot])
+
+ * chore: update dependency lockfile-lint to v5 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.14.2 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^20.4.1 (renovate[bot])
+
+ * fix: fix CI (dhmlau)
+
+ * chore: update actions/checkout action to v6.0.2 (renovate[bot])
+
+ * chore: update actions/setup-node action to v6.2.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.31.10 (renovate[bot])
+
+
 2026-01-12, Version 5.0.27
 ==========================
 
