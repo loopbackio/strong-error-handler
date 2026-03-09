@@ -1,3 +1,37 @@
+2026-03-09, Version 5.0.29
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v7 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.39.4 (renovate[bot])
+
+ * chore: update dependency @eslint/eslintrc to ^3.3.5 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.15.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.32.6 (renovate[bot])
+
+ * chore: update actions/setup-node action to v6.3.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^20.4.3 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.32.5 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.15.0 (renovate[bot])
+
+ * chore: update dependency @eslint/eslintrc to ^3.3.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.32.4 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.39.3 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^20.4.2 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.32.3 (renovate[bot])
+
+
 2026-02-09, Version 5.0.28
 ==========================
 
