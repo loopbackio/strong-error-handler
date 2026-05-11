@@ -1,3 +1,31 @@
+2026-05-11, Version 5.0.31
+==========================
+
+ * chore: update commitlint monorepo to ^20.5.3 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.35.4 (renovate[bot])
+
+ * chore: update actions/setup-node action to v6.4.0 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v7.0.1 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.19.1 (renovate[bot])
+
+ * chore: update dependency handlebars to ^4.7.9 (renovate[bot])
+
+ * chore: update dependency handlebars to v4.7.9 [security] (renovate[bot])
+
+ * chore: update dependency node to v20.20.2 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.16.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^20.5.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^20.4.4 (renovate[bot])
+
+
 2026-03-09, Version 5.0.29
 ==========================
 
