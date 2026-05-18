@@ -27,8 +27,8 @@
     "strong-globalize": "^6.0.6"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.3",
-    "@commitlint/config-conventional": "^20.5.3",
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
     "@eslint/eslintrc": "^3.3.5",
     "@types/express": "^5.0.6",
     "chai": "^6.2.2",
