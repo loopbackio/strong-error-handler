@@ -1,3 +1,15 @@
+2026-06-09, Version 5.0.32
+==========================
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.35.5 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.19.3 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.19.2 (renovate[bot])
+
+
 2026-05-11, Version 5.0.31
 ==========================
 
