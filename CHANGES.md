@@ -1,3 +1,9 @@
+2026-07-15, Version 6.0.0
+=========================
+
+ * chore: drop Node.js 20 support BREAKING CHANGE: drop Node.js 20 support (dhmlau)
+
+
 2026-06-09, Version 5.0.32
 ==========================
 
