@@ -19,8 +19,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node-version:
-          - 16
-          - 18
+          - 20
+          - 22
         include:
           - os: macos-latest
             node-version: 22
@@ -50,8 +50,9 @@ jobs:
       - name: Bootstrap project
         run: npm ci --ignore-scripts --prefer-offline
       - uses: Yuri6037/Action-FakeTTY@1abc69c7d530815855caedcd73842bae5687c1a6 # v1.1
+        if: ${{ matrix.os == 'ubuntu-latest' }}
       - name: Run tests
-        run: faketty npm test --ignore-scripts
+        run: ${{ matrix.os == 'ubuntu-latest' && 'faketty' || '' }} npm test --ignore-scripts
 
   code-lint:
     name: Code Lint
@@ -66,6 +67,7 @@ jobs:
             github.com:443
             nodejs.org:443
             registry.npmjs.org:443
+            objects.githubusercontent.com:443
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
@@ -93,7 +95,9 @@ jobs:
           egress-policy: block
           allowed-endpoints: >
             github.com:443
+            nodejs.org:443
             registry.npmjs.org:443
+            objects.githubusercontent.com:443
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
@@ -129,7 +133,9 @@ jobs:
           egress-policy: block
           allowed-endpoints: >
             github.com:443
+            nodejs.org:443
             registry.npmjs.org:443
+            objects.githubusercontent.com:443
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
