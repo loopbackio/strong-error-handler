@@ -1,3 +1,53 @@
+2026-08-18, Version 6.0.1
+=========================
+
+ * chore: update dependency @eslint/eslintrc to ^3.3.6 (renovate[bot])
+
+ * chore: update dependency eslint to ^9.39.5 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.37.7 (renovate[bot])
+
+ * chore: update dependency lockfile-lint to ^5.0.1 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency node to v22.23.2 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.21.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^21.2.2 (renovate[bot])
+
+ * chore: update actions/checkout action to v7.0.1 (renovate[bot])
+
+ * fix: fix ci (dhmlau)
+
+ * chore: update step-security/harden-runner action to v2.20.1 (renovate[bot])
+
+ * chore: update ossf/scorecard-action action to v2.4.4 (renovate[bot])
+
+ * chore: update actions/setup-node action to v7 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.20.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.37.0 (renovate[bot])
+
+ * chore: update dependency @commitlint/cli to ^21.2.1 (renovate[bot])
+
+ * chore: update actions/checkout action to v7 (renovate[bot])
+
+ * chore: update commitlint monorepo to v21 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.19.4 (renovate[bot])
+
+ * chore: update actions/checkout action to v6.0.3 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.36.3 (renovate[bot])
+
+ * chore: update dependency node to v22.23.1 (renovate[bot])
+
+ * chore: drop Node.js 20 support BREAKING CHANGE: drop Node.js 20 support (dhmlau)
+
+
 2026-06-09, Version 5.0.32
 ==========================
 
