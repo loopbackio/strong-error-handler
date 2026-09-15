@@ -1,4 +1,22 @@
-2026-08-18, Version 6.0.1
+2026-09-15, Version 6.0.2
+=========================
+
+ * chore: update dependency mocha to v12 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.38.0 (renovate[bot])
+
+ * chore: update dependency @eslint/eslintrc to ^3.3.7 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.21.1 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.37.9 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.37.8 (renovate[bot])
+
+
+2026-08-17, Version 6.0.1
 =========================
 
  * chore: update dependency @eslint/eslintrc to ^3.3.6 (renovate[bot])
