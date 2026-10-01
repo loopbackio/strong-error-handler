@@ -31,7 +31,7 @@
     "@commitlint/config-conventional": "^21.2.3",
     "@eslint/eslintrc": "^3.3.7",
     "@types/express": "^5.0.6",
-    "chai": "^6.2.2",
+    "chai": "^6.3.0",
     "eslint": "^9.39.5",
     "eslint-config-loopback": "^13.1.0",
     "eslint-plugin-mocha": "^10.5.0",
