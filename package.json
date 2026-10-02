@@ -38,7 +38,7 @@
     "express": "^5.2.1",
     "lockfile-lint": "^5.0.1",
     "mocha": "^12.0.3",
-    "supertest": "^7.3.0"
+    "supertest": "^7.3.1"
   },
   "browser": {
     "strong-error-handler": false
