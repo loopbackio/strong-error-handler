@@ -1,3 +1,45 @@
+2026-10-13, Version 6.0.3
+=========================
+
+ * chore: update ossf/scorecard-action action to v2.5.0 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update dependency express to ^5.3.0 (renovate[bot])
+
+ * chore: update dependency lockfile-lint to ^5.1.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.38.3 (renovate[bot])
+
+ * chore: update actions/setup-node action to v7.1.0 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.22.1 (renovate[bot])
+
+ * chore: update actions/upload-artifact action to v7.0.2 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.22.0 (renovate[bot])
+
+ * chore: update dependency handlebars to ^4.7.10 (renovate[bot])
+
+ * chore: update dependency supertest to ^7.3.1 (renovate[bot])
+
+ * chore: update dependency mocha to ^12.0.3 (renovate[bot])
+
+ * chore: update dependency chai to ^6.3.0 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.38.2 (renovate[bot])
+
+ * chore: update dependency node to v22.23.3 (renovate[bot])
+
+ * chore: update dependency supertest to ^7.3.0 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^21.2.3 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.38.1 (renovate[bot])
+
+ * chore: update dependency mocha to ^12.0.2 (renovate[bot])
+
+
 2026-09-15, Version 6.0.2
 =========================
 
