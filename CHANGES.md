@@ -1,3 +1,31 @@
+2026-11-12, Version 6.0.4
+=========================
+
+ * chore: update dependency node to v26.13.1 (renovate[bot])
+
+ * chore: update dependency node to v26 (renovate[bot])
+
+ * chore: lock file maintenance (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.22.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.39.3 (renovate[bot])
+
+ * chore: update dependency supertest to ^7.3.2 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.22.3 (renovate[bot])
+
+ * chore: update dependency node to v22.23.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.39.1 (renovate[bot])
+
+ * chore: update step-security/harden-runner action to v2.22.2 (renovate[bot])
+
+ * chore: update commitlint monorepo to ^21.2.4 (renovate[bot])
+
+ * chore: update github/codeql-action action to v4.39.0 (renovate[bot])
+
+
 2026-10-13, Version 6.0.3
 =========================
 
